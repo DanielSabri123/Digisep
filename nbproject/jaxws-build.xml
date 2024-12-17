@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+        *** GENERATED FROM jax-ws.xml - DO NOT EDIT !                             ***
+        *** TO MODIFY wsimport options USE Web Service node -> Edit WS Attributes ***
+        *** TO CHANGE TARGETS GENERATED TO jaxws-build.xml COPY THOSE             ***
+        *** TARGETS TO ../build.xml AND MODIFY THAT FILE INSTEAD                  ***
+
+        --><project xmlns:xalan="http://xml.apache.org/xslt" xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" xmlns:jaxws="http://www.netbeans.org/ns/jax-ws/1">
+    <!--
+                ===================
+                JAX-WS WSGEN SECTION
+                ===================
+            -->
+    <!--
+                ===================
+                JAX-WS WSIMPORT SECTION
+                ===================
+            -->
+    <target name="wsimport-init" depends="init">
+        <fail if="${wsimport.bad.version}" message="WsImport ant task defined in the classpath ${j2ee.platform.wsimport.classpath} has a serious bug. See http://wiki.netbeans.org/MetroIssue for details."/>
+        <mkdir dir="${build.generated.sources.dir}/jax-ws"/>
+        <property name="j2ee.platform.wsimport.classpath" value="${libs.jaxws21.classpath}"/>
+        <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+            <classpath path="${java.home}/../lib/tools.jar:${j2ee.platform.wsimport.classpath}:${javac.classpath}"/>
+        </taskdef>
+        <condition property="conf-dir" value="${conf.dir}/" else="">
+            <isset property="conf.dir"/>
+        </condition>
+    </target>
+    <target name="wsimport-client-TitulosElectronicos" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/TitulosElectronicos"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/TitulosElectronicos" destdir="${build.generated.dir}/jax-wsCache/TitulosElectronicos" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/TitulosElectronicos/wsdl/metqa.siged.sep.gob.mx/met-ws/services/TitulosElectronicos.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="https://metqa.siged.sep.gob.mx/met-ws/services/TitulosElectronicos.wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/TitulosElectronicos/wsdl/metqa.siged.sep.gob.mx/met-ws/services/TitulosElectronicos.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/TitulosElectronicos"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/TitulosElectronicos">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-TitulosElectronicos" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/mx/sep/mec/web/ws/schemas"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/TitulosElectronicos"/>
+    </target>
+    <target name="wsimport-client-TitulosElectronicos_1" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/TitulosElectronicos_1"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/TitulosElectronicos_1" destdir="${build.generated.dir}/jax-wsCache/TitulosElectronicos_1" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/TitulosElectronicos_1/wsdl/TitulosElectronicos.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="file:/C:/Program%20Files/WSDL/TitulosElectronicos.wsdl" xnocompile="true" xendorsed="true" package="mx.sep.mec.web.ws.schemas.productivo">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/TitulosElectronicos_1/wsdl/TitulosElectronicos.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/TitulosElectronicos_1"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/TitulosElectronicos_1">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-TitulosElectronicos_1" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/mx/sep/mec/web/ws/schemas/productivo"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/TitulosElectronicos_1"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-TitulosElectronicos, wsimport-client-TitulosElectronicos_1"/>
+</project>

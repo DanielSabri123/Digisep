@@ -1,0 +1,70 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 10/05/2017, 01:33:45 PM
+    Author     : Adiel Hernández
+*/
+
+
+.popup-modal{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,.2);
+    display:none;
+}
+
+.popup-ventana{
+    width:400px;
+    top:15%;
+    left:50%;
+    margin-left:-200px;
+    position: absolute;
+		/*nos posicionamos en el centro del navegador*/
+		top:50%;
+		left:50%;
+		/*determinamos una anchura*/
+		width:150px;
+		/*indicamos que el margen izquierdo, es la mitad de la anchura*/
+		margin-left:-75px;
+		/*determinamos una altura*/
+		height:150px;
+		/*indicamos que el margen superior, es la mitad de la altura*/
+		margin-top:-75px;
+}
+
+
+
+.cerrar{
+   
+    padding:.2em .5em .3em .5em;
+    
+    
+   z-index: 1700;
+    position:absolute;
+    top:-15px;
+    right:-20px;
+    cursor:pointer;
+}
+
+.popup-overflow{
+   overflow:hidden;
+}
+
+.index1{
+    z-index: 1;
+    position: absolute;
+}
+.index2{
+    z-index: 2;
+    position: absolute;
+}
+.index3{
+    z-index: 1600;
+    position: absolute;
+}

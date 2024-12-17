@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://ws.web.mec.sep.mx/schemas" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ws.web.mec.sep.mx/schemas" targetNamespace="http://ws.web.mec.sep.mx/schemas">
+    <wsdl:types>
+        <xs:schema xmlns:min="http://ws.web.mec.sep.mx/schemas/beans" xmlns:ws="http://ws.web.mec.sep.mx/schemas" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://ws.web.mec.sep.mx/schemas">
+            <xs:complexType name="autenticacionType">
+                <xs:sequence>
+                    <xs:element name="usuario" type="xs:string"/>
+                    <xs:element name="password" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="cargaTituloElectronicoRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="nombreArchivo">
+                            <xs:simpleType>
+                                <xs:restriction base="xs:string">
+                                    <xs:minLength value="2"/>
+                                    <xs:maxLength value="100"/>
+                                </xs:restriction>
+                            </xs:simpleType>
+                        </xs:element>
+                        <xs:element name="archivoBase64" type="xs:base64Binary"/>
+                        <xs:element name="autenticacion" type="ws:autenticacionType"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="consultaProcesoTituloElectronicoRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="numeroLote" type="xs:integer"/>
+                        <xs:element name="autenticacion" type="ws:autenticacionType"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="descargaTituloElectronicoRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="numeroLote" type="xs:integer"/>
+                        <xs:element name="autenticacion" type="ws:autenticacionType"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="cancelaTituloElectronicoRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="folioControl" type="xs:string"/>
+                        <xs:element name="motCancelacion" type="xs:string"/>
+                        <xs:element name="autenticacion" type="ws:autenticacionType"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="cancelarTituloInstitucionRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="folioControl" type="xs:string"/>
+                        <xs:element name="cveInstitucion" type="xs:string"/>
+                        <xs:element name="motCancelacion" type="xs:string"/>
+                        <xs:element name="autenticacion" type="ws:autenticacionType"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="cargaTituloElectronicoResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="numeroLote" type="xs:integer"/>
+                        <xs:element name="mensaje" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="consultaProcesoTituloElectronicoResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="numeroLote" type="xs:integer"/>
+                        <xs:element name="estatusLote" type="xs:short"/>
+                        <xs:element minOccurs="0" name="mensaje" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="descargaTituloElectronicoResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="numeroLote" type="xs:integer"/>
+                        <xs:element name="mensaje" type="xs:string"/>
+                        <xs:element name="titulosBase64" type="xs:base64Binary"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="cancelaTituloElectronicoResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="codigo" type="xs:int"/>
+                        <xs:element name="mensaje" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="cargaTituloElectronicoRequest">
+        <wsdl:part element="tns:cargaTituloElectronicoRequest" name="cargaTituloElectronicoRequest"/>
+    </wsdl:message>
+    <wsdl:message name="cargaTituloElectronicoResponse">
+        <wsdl:part element="tns:cargaTituloElectronicoResponse" name="cargaTituloElectronicoResponse"/>
+    </wsdl:message>
+    <wsdl:message name="consultaProcesoTituloElectronicoRequest">
+        <wsdl:part element="tns:consultaProcesoTituloElectronicoRequest" name="consultaProcesoTituloElectronicoRequest"/>
+    </wsdl:message>
+    <wsdl:message name="consultaProcesoTituloElectronicoResponse">
+        <wsdl:part element="tns:consultaProcesoTituloElectronicoResponse" name="consultaProcesoTituloElectronicoResponse"/>
+    </wsdl:message>
+    <wsdl:message name="descargaTituloElectronicoRequest">
+        <wsdl:part element="tns:descargaTituloElectronicoRequest" name="descargaTituloElectronicoRequest"/>
+    </wsdl:message>
+    <wsdl:message name="descargaTituloElectronicoResponse">
+        <wsdl:part element="tns:descargaTituloElectronicoResponse" name="descargaTituloElectronicoResponse"/>
+    </wsdl:message>
+    <wsdl:message name="cancelaTituloElectronicoRequest">
+        <wsdl:part element="tns:cancelaTituloElectronicoRequest" name="cancelaTituloElectronicoRequest"/>
+    </wsdl:message>
+    <wsdl:message name="cancelaTituloElectronicoResponse">
+        <wsdl:part element="tns:cancelaTituloElectronicoResponse" name="cancelaTituloElectronicoResponse"/>
+    </wsdl:message>
+    <wsdl:message name="cancelarTituloInstitucionRequest">
+        <wsdl:part element="tns:cancelarTituloInstitucionRequest" name="cancelarTituloInstitucionRequest"/>
+    </wsdl:message>
+    <wsdl:portType name="TitulosPortType">
+        <wsdl:operation name="cargaTituloElectronico">
+            <wsdl:input message="tns:cargaTituloElectronicoRequest" name="cargaTituloElectronicoRequest"/>
+            <wsdl:output message="tns:cargaTituloElectronicoResponse" name="cargaTituloElectronicoResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="consultaProcesoTituloElectronico">
+            <wsdl:input message="tns:consultaProcesoTituloElectronicoRequest" name="consultaProcesoTituloElectronicoRequest"/>
+            <wsdl:output message="tns:consultaProcesoTituloElectronicoResponse" name="consultaProcesoTituloElectronicoResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="descargaTituloElectronico">
+            <wsdl:input message="tns:descargaTituloElectronicoRequest" name="descargaTituloElectronicoRequest"/>
+            <wsdl:output message="tns:descargaTituloElectronicoResponse" name="descargaTituloElectronicoResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="cancelaTituloElectronico">
+            <wsdl:input message="tns:cancelaTituloElectronicoRequest" name="cancelaTituloElectronicoRequest"/>
+            <wsdl:output message="tns:cancelaTituloElectronicoResponse" name="cancelaTituloElectronicoResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="cancelarTituloInstitucion">
+            <wsdl:input message="tns:cancelarTituloInstitucionRequest" name="cancelarTituloInstitucionRequest"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="TitulosPortTypeSoap11" type="tns:TitulosPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="cargaTituloElectronico">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="cargaTituloElectronicoRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="cargaTituloElectronicoResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="consultaProcesoTituloElectronico">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="consultaProcesoTituloElectronicoRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="consultaProcesoTituloElectronicoResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="descargaTituloElectronico">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="descargaTituloElectronicoRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="descargaTituloElectronicoResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="cancelaTituloElectronico">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="cancelaTituloElectronicoRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="cancelaTituloElectronicoResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="cancelarTituloInstitucion">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="cancelarTituloInstitucionRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="TitulosPortTypeService">
+        <wsdl:port binding="tns:TitulosPortTypeSoap11" name="TitulosPortTypeSoap11">
+            <soap:address location="https://met.sep.gob.mx:443/met-ws/services/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

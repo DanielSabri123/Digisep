@@ -1,0 +1,180 @@
+.chatInput{
+    border:1px solid #6b8562;
+    background-color: #FFFFF;
+    color: #000000;
+    font-weight: normal;
+    padding-left: 2px;
+    height: 20px;
+    width: 195px;
+}
+.fromUserName {
+    color: #ff7e1a;
+    font-family: sans-serif;
+    font-size: 12px;
+    font-weight: bold;	
+}
+.fromMessage {
+    color: #4f6f77;
+    font-family: sans-serif;
+    font-size: 10px;
+}
+
+.toUserName {
+    color: #00578a;
+    font-family: sans-serif;
+    font-size: 10px; 
+    font-weight: bold;
+}
+
+.toMessage {
+    color: #bb6066 ;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+.windowTitle {
+    color: #FFFFFF;
+    font-family: verdana;
+    font-size: 12px; 
+    font-weight: bold;
+    float: left;
+    position: relative;
+    top: 5px;
+}
+.windowClose {
+    color: #FFFFFF;
+    font-family: verdana;
+    font-size: 14px; 
+    float: right;
+    position: relative;
+    top: 5px;
+    cursor: pointer;
+}
+
+
+/* Hang */
+@-webkit-keyframes hvr-hang1 {
+    0% {
+        -webkit-transform: translateY(8px);
+        transform: translateY(8px);
+    }
+    50% {
+        -webkit-transform: translateY(4px);
+        transform: translateY(4px);
+    }
+    100% {
+        -webkit-transform: translateY(8px);
+        transform: translateY(8px);
+    }
+}
+
+
+
+
+@keyframes hvr-hang1 {
+    0% {height:5px;transform:translateY(0px);}
+    25% {height:5px;transform:translateY(4px);}
+    50% {height:5px;transform:translateY(0px);}
+    100% {height:5px;transform:translateY(0px);}
+}
+@keyframes hvr-hang2 {
+    0% {height:5px;transform:translateY(0px);}
+    25% {height:5px;transform:translateY(4px);}
+    50% {height:5px;transform:translateY(0px);}
+    100% {height:5px;transform:translateY(0px);}
+}
+
+
+
+@keyframes hvr-hang3 {
+    0% {height:5px;transform:translateY(0px);}
+    25% {height:5px;transform:translateY(4px);}
+    50% {height:5px;transform:translateY(0px);}
+    100% {height:5px;transform:translateY(0px);}
+}
+
+
+@-webkit-keyframes hvr-hang-sink1 {
+    100% {
+        -webkit-transform: translateY(8px);
+        transform: translateY(8px);
+    }
+}
+@keyframes hvr-hang-sink1 {
+    100% {
+        -webkit-transform: translateY(8px);
+        transform: translateY(8px);
+    }
+}
+.hvr-hang1 {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px transparent;
+}
+.hvr-hang1 {
+    -webkit-animation-name: hvr-hang-sink1, hvr-hang1;
+    animation-name: hvr-hang-sink1, hvr-hang1;
+    -webkit-animation-duration: .3s, 1.5s;
+    animation-duration: .3s, 1.5s;
+    -webkit-animation-delay: 0s, .3s;
+    animation-delay: 0s, .3s;
+    -webkit-animation-timing-function: ease-out, ease-in-out;
+    animation-timing-function: ease-out, ease-in-out;
+    -webkit-animation-iteration-count: 3, infinite;
+    animation-iteration-count: 3, infinite;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-direction: normal, alternate;
+    animation-direction: normal, alternate;
+}
+
+.hvr-hang2 {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px transparent;
+}
+
+.hvr-hang2 {
+    -webkit-animation-name: hvr-hang-sink, hvr-hang1;
+    animation-name: hvr-hang-sink, hvr-hang1;
+    -webkit-animation-duration: .3s, 1.5s;
+    animation-duration: .3s, 1.5s;
+    -webkit-animation-delay: 0s, .6s;
+    animation-delay: 0s, .6s;
+    -webkit-animation-timing-function: ease-out, ease-in-out;
+    animation-timing-function: ease-out, ease-in-out;
+    -webkit-animation-iteration-count: 1, infinite;
+    animation-iteration-count: 1, infinite;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-direction: normal, alternate;
+    animation-direction: normal, alternate;
+}
+
+.hvr-hang3 {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px transparent;
+}
+
+.hvr-hang3 {
+    -webkit-animation-name: hvr-hang-sink, hvr-hang1;
+    animation-name: hvr-hang-sink, hvr-hang1;
+    -webkit-animation-duration: .3s, 1.5s;
+    animation-duration: .3s, 1.5s;
+    -webkit-animation-delay: 0s, .9s;
+    animation-delay: 0s, .9s;
+    -webkit-animation-timing-function: ease-out, ease-in-out;
+    animation-timing-function: ease-out, ease-in-out;
+    -webkit-animation-iteration-count: 1, infinite;
+    animation-iteration-count: 1, infinite;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-direction: normal, alternate;
+    animation-direction: normal, alternate;
+}

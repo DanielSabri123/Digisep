@@ -1,0 +1,294 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 11-sep-2017, 17:34:58
+    Author     : Paulina
+*/
+
+.simpletablegreen {
+    border: solid 1px #DDEEEE;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.simpletablegreen thead th {
+    background-color: #DDEFEF;
+    border: solid 1px #DDEEEE;
+    color: #336B6B;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.simpletablegreen tbody td {
+    border: solid 1px #DDEEEE;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+.simpletableorange {
+    border: solid 1px #ffc5b0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.simpletableorange thead th {
+    background-color: #ffc5b0;
+    border: solid 1px #ffc5b0;
+    color: #a0310a;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.simpletableorange tbody td {
+    border: solid 1px #ffc5b0;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+.simpletableblue {
+    border: solid 1px #cee7f0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.simpletableblue thead th {
+    background-color: #cee7f0;
+    border: solid 1px #cee7f0;
+    color: #334f6b;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.simpletableblue tbody td {
+    border: solid 1px #cee7f0;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+.simpletableyellow {
+    border: solid 1px #fff1c3;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.simpletableyellow thead th {
+    background-color: #fff1c3;
+    border: solid 1px #fff1c3;
+    color: #8c6c00;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.simpletableyellow tbody td {
+    border: solid 1px #fff1c3;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+.simpletablepink {
+    border: solid 1px #ffd3d6;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.simpletablepink thead th {
+    background-color: #ffd3d6;
+    border: solid 1px #ffd3d6;
+    color: #a5000e;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.simpletablepink tbody td {
+    border: solid 1px #ffd3d6;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+.simpletablegray {
+    border: solid 1px #bbbbbb;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.simpletablegray thead th {
+    background-color: #bbbbbb;
+    border: solid 1px #bbbbbb;
+    color: #313131;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.simpletablegray tbody td {
+    border: solid 1px #bbbbbb;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+.linealtablegreen {
+    border: solid 1px #DDEEEE;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.linealtablegreen thead th {
+    background-color: #8dc7c7;
+    border: solid 1px #8dc7c7;
+    color: #336B6B;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.linealtablegreen tbody td {
+    border: solid 1px #DDEEEE;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+.linealgreen{
+    background-color:#ddefef;
+}
+.linealtableorange {
+    border: solid 1px #ffc5b0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.linealtableorange thead th {
+    background-color: #ffc5b0;
+    border: solid 1px #ffc5b0;
+    color: #a0310a;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.linealtableorange tbody td {
+    border: solid 1px #ffc5b0;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+.linealorange{
+    background-color:#fbe1d8;
+}
+.linealtableblue {
+    border: solid 1px #cee7f0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.linealtableblue thead th {
+    background-color: #cee7f0;
+    border: solid 1px #cee7f0;
+    color: #334f6b;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.linealtableblue tbody td {
+    border: solid 1px #cee7f0;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+.linealblue{
+    background-color:#eff8fb;
+}
+.linealtableyellow {
+    border: solid 1px #fff1c3;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.linealtableyellow thead th {
+    background-color: #fff1c3;
+    border: solid 1px #fff1c3;
+    color: #8c6c00;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.linealtableyellow tbody td {
+    border: solid 1px #fff1c3;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+.linealyellow{
+    background-color:#fffaec;
+}
+.linealtablepink {
+    border: solid 1px #ffd3d6;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.linealtablepink thead th {
+    background-color: #ffd3d6;
+    border: solid 1px #ffd3d6;
+    color: #a5000e;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.linealtablepink tbody td {
+    border: solid 1px #ffd3d6;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+.linealpink{
+    background-color:#ffebec;
+}
+.linealtablegray {
+    border: solid 1px #bbbbbb;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.linealtablegray thead th {
+    background-color: #bbbbbb;
+    border: solid 1px #bbbbbb;
+    color: #313131;
+    padding: 10px;
+    text-align: left;
+    text-shadow: 1px 1px 1px #fff;
+}
+.linealtablegray tbody td {
+    border: solid 1px #bbbbbb;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+.linealgraydark{
+    background-color:#e4e4e4;
+}
+.linealgray{
+    background-color:#ffffff;
+
+}
+.selectstyles {
+    font-family: arial, sans-serif;
+    font-size: 11px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.selectstyles td,
+.selectstyles th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 5px;
+}
+
+.selectstyles tr:nth-child(even) {
+    background-color: #dddddd;
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://met.sep.gob.mx:80/met-ws/services/TitulosElectronicos.wsdl" uri="src/conf/xml-resources/web-service-references/TitulosElectronicos_1/wsdl/met.sep.gob.mx/met-ws/services/TitulosElectronicos.wsdl"/>
+    <system systemId="https://met.sep.gob.mx:443/met-ws/services/TitulosElectronicos.wsdl" uri="src/conf/xml-resources/web-service-references/TitulosElectronicos_1/wsdl/met.sep.gob.mx_443/met-ws/services/TitulosElectronicos.wsdl"/>
+    <system systemId="https://met.sep.gob.mx/met-ws/services/TitulosElectronicos.wsdl" uri="src/conf/xml-resources/web-service-references/TitulosElectronicos_1/wsdl/met.sep.gob.mx/met-ws/services/TitulosElectronicos.wsdl"/>
+    <system systemId="https://metqa.siged.sep.gob.mx/met-ws/services/TitulosElectronicos.wsdl" uri="src/conf/xml-resources/web-service-references/TitulosElectronicos/wsdl/metqa.siged.sep.gob.mx/met-ws/services/TitulosElectronicos.wsdl"/>
+    <system systemId="file:/C:/Users/Usuario/Documents/titulos/libs/TitulosElectronicos.wsdl" uri="src/conf/xml-resources/web-service-references/TitulosElectronicos_1/wsdl/TitulosElectronicos.wsdl"/>
+    <system systemId="https://click-escolar.com//WSDL/TitulosElectronicos.wsdl" uri="src/conf/xml-resources/web-service-references/TitulosElectronicos_1/wsdl/click-escolar.com/WSDL/TitulosElectronicos.wsdl"/>
+    <system systemId="file:/C:/Users/Usuario/Downloads/TitulosElectronicos.wsdl" uri="src/conf/xml-resources/web-service-references/TitulosElectronicos_1/wsdl/TitulosElectronicos.wsdl"/>
+    <system systemId="file:/C:/Users/Usuario/Documents/titulos/web/Vista/assets/WSDL/TitulosElectronicos.wsdl" uri="src/conf/xml-resources/web-service-references/TitulosElectronicos_1/wsdl/TitulosElectronicos.wsdl"/>
+    <system systemId="file:/C:/Program%20Files/WSDL/TitulosElectronicos.wsdl" uri="src/conf/xml-resources/web-service-references/TitulosElectronicos_1/wsdl/TitulosElectronicos.wsdl"/>
+</catalog>

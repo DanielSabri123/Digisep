@@ -1,0 +1,109 @@
+/** Easy Tree style */
+.easy-tree {
+     min-height: 20px;
+    margin-bottom: 20px;
+    color: #4f4f4f;
+    border: none;
+    border-top: none;
+    padding-bottom: 15px;
+}
+
+.easy-tree > ul {
+    padding-left: 15px;
+}
+
+.easy-tree li {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px 5px 0 5px;
+    position: relative;
+}
+
+
+.easy-tree li::before, .easy-tree li::after {
+    content: '';
+    left: -30px;
+    position: absolute;
+    right: auto
+}
+
+.easy-tree li::before {
+    border-left: 1px solid #C1C1C1;
+    bottom: 50px;
+    height: 100%;
+    top: 0;
+    width: 1px
+}
+
+.easy-tree li::after {
+    border-top: 1px solid #C1C1C1;
+    height: 20px;
+    top: 30px;
+    width: 35px
+}
+
+.easy-tree li > span {
+    
+   border-radius: 76px 76px 76px 76px;
+-moz-border-radius: 76px 76px 76px 76px;
+-webkit-border-radius: 76px 76px 76px 76px;
+border: 0px solid #000000;
+-webkit-box-shadow: -5px 5px 3px -2px rgba(191,181,191,1);
+-moz-box-shadow: -5px 5px 3px -2px rgba(191,181,191,1);
+box-shadow: -5px 5px 3px -2px rgba(191,181,191,1);
+    display: -webkit-box;
+    padding: 10px;
+    text-decoration: none
+}
+
+.easy-tree li.parent_li > span {
+    cursor: pointer
+}
+
+
+.easy-tree > ul > li::before, .easy-tree > ul > li::after {
+    border: 0
+}
+
+.easy-tree li:last-child::before {
+    height: 30px
+}
+
+.easy-tree li > span, .easy-tree li > span > a {
+    background: #fbfbfb;
+   
+}
+
+.easy-tree li.li_selected > span, .easy-tree li.li_selected > span > a {
+    background: #3e4a59;
+    color: #fff;
+}
+/** solo colorea el*/
+
+
+.easy-tree .easy-tree-toolbar {
+    background-color: #fff;
+}
+
+.easy-tree .easy-tree-toolbar > div {
+    display: inline-block;
+}
+
+.easy-tree .easy-tree-toolbar > div > button {
+    border-radius: 0;
+    margin: 20px 5px;
+}
+
+.easy-tree .easy-tree-toolbar .create .input-group {
+    top: -15px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.easy-tree .easy-tree-toolbar .create .input-group input {
+    border-radius: 0;
+}
+
+.easy-tree .easy-tree-toolbar .create .input-group button {
+    border-radius: 0;
+}
