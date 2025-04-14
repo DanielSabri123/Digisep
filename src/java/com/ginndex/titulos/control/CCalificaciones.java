@@ -428,9 +428,6 @@ public class CCalificaciones {
                                         cstmt.setString(4, data.get(j)[2].trim());
                                         String cadenaCicloEscolar = data.get(j)[3].trim();
                                         String[] partesCicloEscolar = cadenaCicloEscolar.split("-");
-                                       
-                                            System.out.println(partesCicloEscolar[0].toString());
-                                        
 
                                         if (partesCicloEscolar[0].length() == 4 && (partesCicloEscolar[1].length() == 1 || partesCicloEscolar[1].length() == 2)) {
                                             cstmt.setString(5, data.get(j)[3].trim());
@@ -441,6 +438,9 @@ public class CCalificaciones {
                                         cstmt.setInt(6, (data.get(j)[4] != null && !data.get(j)[4].equalsIgnoreCase("") ? Integer.valueOf(data.get(j)[4]) : 0));
                                         cstmt.registerOutParameter(7, java.sql.Types.VARCHAR);
 
+                                        System.out.println(data.get(0)[1].trim() + "," + data.get(2)[1].trim() + "," + data.get(j)[0].trim() + "," + data.get(j)[2].trim() + "," + data.get(j)[3].trim() + "," + (data.get(j)[4] != null && !data.get(j)[4].equalsIgnoreCase("") ? Integer.valueOf(data.get(j)[4]) : 0));
+                                        System.out.println(data.get(j)[1].trim());
+                                        
                                         cstmt.execute();
                                         RESP = cstmt.getString(7);
 

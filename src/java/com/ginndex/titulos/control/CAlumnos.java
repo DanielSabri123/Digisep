@@ -331,6 +331,7 @@ public class CAlumnos {
                     String[] filaActual = new String[COLUMNAS_A_LEER_EXCEL];
 //                    int cols = rowActual.getLastCellNum();
                     if (j >= 4) {
+                        System.out.println(j);
                         for (int k = 0; k < COLUMNAS_A_LEER_EXCEL; k++) { //SE CAMBIA EL LIMITE DEL CICLO A 13 Y NO SE DEJA EN ALGO DINÁMICO, PUES LOS DATOS A INGRESAR SON 12 COLUMNAS.
                             Cell cellActual = rowActual.getCell(k);
                             if (k <= COLUMNAS_A_LEER_EXCEL - 1) {
