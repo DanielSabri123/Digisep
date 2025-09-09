@@ -36,6 +36,42 @@ public class Alumno {
     private Persona persona;
     private Carrera carrera;
     private Generacion generacion;
+    private String FechaInicioAntecedente;
+    private String FechaFinAntecedente;
+    private String TipoEstudioAntecedente;
+    private String EstadoAntecedente;
+
+    public String getFechaInicioAntecedente() {
+        return FechaInicioAntecedente;
+    }
+
+    public void setFechaInicioAntecedente(String FechaInicioAntecedente) {
+        this.FechaInicioAntecedente = FechaInicioAntecedente;
+    }
+
+    public String getFechaFinAntecedente() {
+        return FechaFinAntecedente;
+    }
+
+    public void setFechaFinAntecedente(String FechaFinAntecedente) {
+        this.FechaFinAntecedente = FechaFinAntecedente;
+    }
+
+    public String getTipoEstudioAntecedente() {
+        return TipoEstudioAntecedente;
+    }
+
+    public void setTipoEstudioAntecedente(String TipoEstudioAntecedente) {
+        this.TipoEstudioAntecedente = TipoEstudioAntecedente;
+    }
+
+    public String getEstadoAntecedente() {
+        return EstadoAntecedente;
+    }
+
+    public void setEstadoAntecedente(String EstadoAntecedente) {
+        this.EstadoAntecedente = EstadoAntecedente;
+    }
 
     public String getId_Alumno() {
         return Id_Alumno;

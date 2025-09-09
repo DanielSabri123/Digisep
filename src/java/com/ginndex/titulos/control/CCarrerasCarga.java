@@ -5,9 +5,11 @@
  */
 package com.ginndex.titulos.control;
 
+import com.ginndex.titulos.modelo.Alumno;
 import com.ginndex.titulos.modelo.Bitacora;
 import com.ginndex.titulos.modelo.Carrera;
 import com.ginndex.titulos.modelo.Materia;
+import com.ginndex.titulos.modelo.Persona;
 import com.ginndex.titulos.modelo.TETitulosCarreras;
 import java.io.File;
 import java.io.FileInputStream;
@@ -134,6 +136,8 @@ public class CCarrerasCarga {
             RESP = EliminarMateria();
         } else if (getBandera().equalsIgnoreCase("3")) {
             RESP = cargarListaCarreras();
+        } else if (getBandera().equalsIgnoreCase("consultarListaAlumnos")) {
+            RESP = cargarListaAlumnos();
         }
 
         return RESP;
@@ -848,6 +852,71 @@ public class CCarrerasCarga {
             } else {
                 RESP.append("empty¬");
                 RESP.append("<option value='empty'>No se encontraron carreras</option>");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CCarrerasCarga.class.getName()).log(Level.SEVERE, null, ex);
+            return "error|Error SQL al realizar carga de carreras: " + accion_catch(ex);
+        } catch (Exception ex) {
+            Logger.getLogger(CCarrerasCarga.class.getName()).log(Level.SEVERE, null, ex);
+            return "error|Ocurrió un error inesperado al realizar carga de carreras: " + accion_catch(ex);
+        }
+        return RESP.toString();
+    }
+    
+    private String cargarListaAlumnos() {
+        String idCarrera = request.getParameter("idCarrera");
+        StringBuilder RESP = new StringBuilder();
+        pstmt = null;
+        con = null;
+        rs = null;
+        try {
+            conexion = new CConexion();
+            List<Alumno> lstAlumno = new ArrayList<Alumno>();
+            List<Persona> lstPersona = new ArrayList<Persona>();
+            String Query = "SELECT \n" +
+                            "	a.ID_Alumno, a.Matricula, CONCAT(p.APaterno, ' ', p.AMaterno, ' ', p.Nombre) AS Nombre_Alumno\n" +
+                            "FROM Alumnos as a\n" +
+                            "JOIN Persona as p on p.Id_Persona = a.ID_Persona\n" +
+                            "JOIN Carrera as c on a.ID_Carrera = c.ID_Carrera\n" +
+                            "WHERE c.Id_Carrera_Excel = " + idCarrera;
+            conexion.setRequest(request);
+            con = conexion.GetconexionInSite();
+
+            pstmt = con.prepareStatement(Query);
+
+            rs = pstmt.executeQuery();
+
+
+            while (rs.next()) {
+                Alumno a = new Alumno();
+                Persona p = new Persona();
+
+                a.setId_Alumno(rs.getString("ID_Alumno"));
+                a.setMatricula(rs.getString("Matricula"));
+
+                p.setNombre(rs.getString("Nombre_Alumno"));
+
+                lstAlumno.add(a);
+                lstPersona.add(p);
+            }
+
+            if(lstAlumno.isEmpty()){
+                RESP.append("empty|");
+                RESP.append("<option value=''>No hay alumnos</option>");
+            }else{
+                RESP.append("success|");
+                for (int i = 0; i < lstAlumno.size(); i++) {
+                    RESP.append("<option value='")
+                            .append(lstAlumno.get(i).getId_Alumno())
+                            .append("' data-matricula='")
+                            .append(lstAlumno.get(i).getMatricula())
+                            .append("'>")
+                            .append(lstAlumno.get(i).getMatricula())
+                            .append(" - ")
+                            .append(lstPersona.get(i).getNombre())
+                            .append("</option>");
+                }
             }
 
         } catch (SQLException ex) {

@@ -233,6 +233,9 @@
                                 <div class="block-header bg-gray-lighter">
                                     <ul class="block-options">
                                         <li id="liBtnNuevo">
+                                            <button id="btn-modal-configurar-conexion-click" data-toggle="modal"  type="button" class="btn text-success"><i class="fa fa-gear"></i> Configurar Conexión</button>
+                                        </li>
+                                        <li id="liBtnNuevo">
                                             <button id="btnNuevaClave" data-toggle="modal" data-target="#modal-ClaveActivacion" type="button" class="btn text-success"><i class="fa fa-plus"></i> Agregar Clave</button>
                                         </li>
                                     </ul>
@@ -410,6 +413,7 @@
             </footer>
             <!-- END Footer -->
         </div>
+                                
         <div class="modal fade push-200-t" id="modal-ClaveActivacion" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-popin mymodal nomini">
                 <div class="modal-content" id="modal-ClaveActivacion-draggable" >
@@ -450,6 +454,81 @@
                 </div>
             </div>
         </div>
+                                
+        <div class="modal fade push-200-t" id="modal-configurar-conexion-click" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-popin mymodal nomini">
+                <div class="modal-content" id="modal-configurar-conexion-click-draggable" >
+                    <div class="block block-themed block-transparent remove-margin-b">
+                        <div class="block-header bg-primary-dark">
+                            <ul class="block-options">
+                                <li>
+                                    <button data-dismiss="modal" type="button" id="btn-cerrar-modal-configurar-conexion-click"><i class="si si-close"></i></button>
+                                </li>                                
+                            </ul>
+                            <h3 class="block-title" id="modaltitle">CONFIGURACIÓN CONEXIÓN A CLICK ESCOLAR</h3>
+                        </div>
+                        <div class="block-content form-group" style="height: auto; overflow:inherit;">
+                            <input type="hidden" id="clave-institucion-click-test">
+                            <input type="hidden" id="usuario-click-test">
+                            <input type="hidden" id="contrasena-click-test">
+                            <input type="hidden" id="test-conexion-click-click">
+                            <form class="form-horizontal"  id="form-configurar-conexion-click" name="form-configurar-conexion-click"> 
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="display: none;">
+                                        <div class="form-material form-material-primary input-group floating" id="div-id-configuracion-click">
+                                            <input class="form-control" type="text" id="id-configuracion-click" name="id-configuracion-click" autoComplete="off">
+                                            <label for="id-configuracion-click" data-toggle="popover" title="Id Configuración" data-placement="right"><span class="text-danger ">▪</span> Id Configuración</label>
+                                            <span class="input-group-addon "><i class="fa fa-letter"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="banda-confirmacion-test" style="display:none;"></div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-material form-material-primary input-group floating" id="div-clave-institucion-click" style="margin-top: 20px;">
+                                            <input class="form-control" type="text" id="clave-institucion-click" name="clave-institucion-click" autoComplete="off">
+                                            <label for="clave-institucion-click" data-toggle="popover" title="Clave de Institución" data-placement="right" data-content="Ingresa la clave asignada a tu institución en Click Escolar" data-original-title="Right Popover"><span class="text-danger ">▪</span> Clave de Institución</label>
+                                            <span class="input-group-addon "><i class="fa fa-letter"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="padding-top: 10px;">
+                                        <div class="form-material form-material-primary input-group floating" id="div-usuario-click">
+                                            <input class="form-control" type="text" id="usuario-click" name="usuario-click" autoComplete="off">
+                                            <label for="usuario-click" data-toggle="popover" title="Usuario" data-placement="right" data-content="Ingresa el usuario administrativo utilizado para iniciar sesión en Click Escolar" data-original-title="Right Popover"><span class="text-danger ">▪</span> Usuario</label>
+                                            <span class="input-group-addon "><i class="fa fa-letter"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="padding-top: 10px;">
+                                        <div class="form-material form-material-primary input-group floating" id="div-contrasena-click">
+                                            <input class="form-control" type="password" id="contrasena-click" name="contrasena-click" autoComplete="off">
+                                            <label for="contrasena-click" data-toggle="popover" title="Constraseña" data-placement="right" data-content="Ingresa la contraseña asignada al usuario" data-original-title="Right Popover"><span class="text-danger ">▪</span> Contraseña</label>
+                                            <span class="input-group-addon "><i class="fa fa-letter"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="padding-top: 10px; display: none;">
+                                        <div class="form-material form-material-primary input-group floating" id="div-nombre-bd-click">
+                                            <input class="form-control" type="text" id="nombre-bd-click" name="nombre-bd-click" autoComplete="off">
+                                            <label for="nombre-bd-click" data-toggle="popover" title="Constraseña" data-placement="right" data-content="Ingresa la contraseña asignada al usuario" data-original-title="Right Popover"><span class="text-danger ">▪</span> BD</label>
+                                            <span class="input-group-addon "><i class="fa fa-letter"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--<p class="text-muted font-s12 center-block">
+                                    Si no cuentas con una clave de activación, comunícate con el personal de Grupo Inndex para solicitar una.
+                                </p>-->
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        <button id="btn-guardar-configuracion-conexion-click" class="btn btn-sm btn-success pull-right btn-guardar-configuracion-conexion-click" style="margin-left: 10px;"><i class="fa fa-save push-5-r"></i>Guardar Conexión</button>
+                                        <button id="btn-probar-configuracion-conexion-click" class="btn btn-sm btn-primary pull-right btn-probar-configuracion-conexion-click"><i class="fa fa-wpforms push-5-r"></i>Probar Conexión</button>
+                                    </div>
+                                </div>     
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+                                
         <%
             if (!usuario.equals("null")) {
         %>
@@ -462,7 +541,8 @@
         <script src="../assets/js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
         <script src="../assets/js/plugins/jquery-ui/jquery-ui.min.js"></script>
         <script src="../assets/js/plugins/sessionTimeOut/bootstrap-session-timeout.js"></script>
-        <script src="../assets/js/plugins/Validations/ValidacionesTEConfiguracionInicial.js"></script>
+        <script src="../assets/js/plugins/Validations/ValidacionesTEConfiguracionInicial.js?v=1.1"></script>
+        <script src="../assets/js/plugins/serviceClickEscolar/ServiceClickEscolarConfiguracionInicial.js"></script>
         <script src="../assets/js/plugins/Validations/ValidacionesCambiarContrasenia.js"></script>
         <script>
                                             jQuery(function () {

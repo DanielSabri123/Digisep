@@ -110,7 +110,7 @@ public class CTitulos {
     String passwordSEP;
     Workbook libro;
     private final int FILAS_DESPUES_ENCABEZADOS = 1;
-    private final int COLUMNAS_A_LEER_EXCEL = 21;
+    private final int COLUMNAS_A_LEER_EXCEL = 23;
     private String estatusMET;
     
     private String mensajeMET;
@@ -419,32 +419,6 @@ public class CTitulos {
         bitacora.setModulo("Carga Titulos Masivos");
         bitacora.setMovimiento("Inserción");
         boolean isNotFound = false;
-        String[] celdaALetra = new String[] {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"};
-        String[] encabezadosEsperados = {
-            "* Matrícula del alumno",
-            "* Id de Carrera",
-            "Nombre Carrera",
-            "Nombre del Alumno",
-            "* Modalidad de Titulación",
-            "* Lugar de Expedición",
-            "* Servicio Social",
-            "* Fundamento Legal",
-            "* Fecha Expedición",
-            "Fecha Examen Profesional",
-            "Fecha Exención Examen Profesional",
-            "* Institución de Procedencia",
-            "* Tipo Estudio Antecedente",
-            "* Entidad Antecedente",
-            "Fecha Inicio Antecedente",
-            "* Fecha Fin Antecedente",
-            "No. Cédula",
-            "* CURP Firmante",
-            "Nombre Firmante",
-            "CURP Firmante",
-            "Nombre Firmante"
-        };
-        
-        String cadenaCeldasVacias = "";
         try {
             con = conexion.GetconexionInSite();
             // Para acceder al archivo ingresado
@@ -461,334 +435,250 @@ public class CTitulos {
                 Sheet hojaActual = libro.getSheetAt(i);
                 int rows = hojaActual.getLastRowNum();
                 Logger.getLogger(CTitulos.class.getName()).log(Level.INFO, "FILAS LEÍDAS EN LA HOJA: " + (i + 1) + " ====== " + (rows + 1) + " =====");
-                //Si solamente lee 3 filas significa que la hoja esta vacía, no tiene caso continuar
-                if(rows == 3){
-                    RESP = "sinRegistros||<p style='color: #545454;'>El archivo no contiene registros a importar.</p>"
-                            + "<p>Verifica la información ingresada.</p>"
-                            + "<p>No. Hoja: " + (i + 1) + "</p>"
-                            + "<p>Nombre Hoja: " + libro.getSheetName(i) + "</p>";
-                        return RESP;
-                }
-                for (int j = 3; j <= rows; j++) {
+                for (int j = 0; j <= rows; j++) {
                     String[] filaActual = new String[COLUMNAS_A_LEER_EXCEL];
                     Row rowActual = hojaActual.getRow(j);
-                    
-                    //Primero validamos que los encabezados esten bien
-                    if(j == 3){
-                        if(rowActual == null){ //Significa que borro la fila de encabezados
-                            RESP = "formatoInvalido||<p style='color: #545454;'>El formato del archivo seleccionado para subir títulos es inválido.</p><p><strong>Nombre Hoja: " + libro.getSheetName(i) + "</strong></p><p><strong>No. Hoja: " + (i+1)  + "</strong></p><p style='color: #545454;'>La <strong>fila 4</strong> correspondiente a los encabezados fue eliminada, Por favor, no modifique la estructura del archivo.<p>";
-                            return RESP;
-                        }
-                        
-                        //Metemos los encabezados a un arreglo para posteriormente verificar si esta completo
-                        String encabezados[] = new String[COLUMNAS_A_LEER_EXCEL];
+                    if (j >= 3) {
                         for (int k = 0; k < COLUMNAS_A_LEER_EXCEL; k++) {
                             Cell cellActual = rowActual.getCell(k);
-                            
-                            if(cellActual != null){
-                                encabezados[k] = cellActual.getStringCellValue();
-                            }else{
-                                encabezados[k] = "";
-                            }
-                        }
-                        
-                        //Verificamos si no se modifico alguna celda del encabezado
-                        for (int z = 0; z < encabezadosEsperados.length; z++) {
-                            if (!encabezados[z].equalsIgnoreCase(encabezadosEsperados[z])) {
-                                RESP = "formatoInvalido||<p style='color: #545454;'>El formato del archivo seleccionado para subir títulos es inválido.</p><p><strong>Nombre Hoja: " + libro.getSheetName(i) + "</strong></p><p><strong>No. Hoja: " + (i+1)  + "</strong></p><p style='color: #545454;'>La <strong>celda " + celdaALetra[z] + "</strong> en la <strong>fila 4</strong> fue modificada. Por favor, no modifique la estructura del archivo.</p>";
-                                return RESP;
-                            }
-                        }
-                    }else{
-                        //Este else comienza desde la fila 5, es donde comienza la informacion de los titulos
-                        
-                        //Si la fila esta completamente vacia, simplemente pasamos a la siguiente no tiene caso continuar evaluando esta fila
-                        if (rowActual == null) {
-                            continue;
-                        }
-                        
-                        //Comenzamos a iterar sobre las celdas de las filas
-                        for (int k = 0; k < COLUMNAS_A_LEER_EXCEL; k++) {
-                            Cell cellActual = rowActual.getCell(k); //Obtenemos la celda
-                            
-                            if(cellActual == null){
-                                filaActual[k] = "";
-                            }else if (((k >= 8 && k < 11) || ((k >= 14 && k <= 15))) && (j >= 4)) {
-                                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                                sdf.setLenient(false);
-                                if (cellActual != null
-                                        && cellActual.getCellType() != Cell.CELL_TYPE_BLANK
-                                        && cellActual.getCellType() != Cell.CELL_TYPE_BOOLEAN
-                                        && cellActual.getCellType() != Cell.CELL_TYPE_ERROR
-                                        && cellActual.getCellType() != Cell.CELL_TYPE_FORMULA) {
-                                    String textoCelda = "";
-                                    Date fecha = null;
-                                    if (cellActual.getCellType() != Cell.CELL_TYPE_STRING) {
-                                        fecha = cellActual.getDateCellValue();
-                                    } else {
-                                        textoCelda = cellActual.getStringCellValue();
-                                        try {
-                                            fecha = sdf.parse(textoCelda);
-                                        } catch (ParseException ex) {
-                                            RESP = "formatoInvalido||dateInvalid_<strong>" + ex.getMessage() + "<p>Hoja no. " + (i + 1) + " " + libro.getSheetName(i) + " <p>Fila no. " + (j + 1) + "<strong>";
-                                            return RESP;
-                                        }
-                                    }
-                                    if (fecha != null) {
-                                        filaActual[k] = sdf.format(fecha);
-                                    } else {
-                                        filaActual[k] = "";
-                                    }
+                            if (k <= COLUMNAS_A_LEER_EXCEL - 1) {
+                                if (cellActual == null) {
+                                    filaActual[k] = "";
                                 } else {
-                                    if (k == 9 || k == 10 || k == 14 || k == 16) {
-                                        if (cellActual == null || cellActual.getCellType() == Cell.CELL_TYPE_BLANK) {
-                                            filaActual[k] = "";
+                                    if (((k >= 8 && k < 13) || ((k >= 16 && k <= 17))) && (j >= 4)) {
+                                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                                        sdf.setLenient(false);
+                                        if (cellActual.getCellType() != Cell.CELL_TYPE_BLANK
+                                                && cellActual.getCellType() != Cell.CELL_TYPE_BOOLEAN
+                                                && cellActual.getCellType() != Cell.CELL_TYPE_ERROR
+                                                && cellActual.getCellType() != Cell.CELL_TYPE_FORMULA) {
+                                            String textoCelda = "";
+                                            Date fecha = null;
+                                            if (cellActual.getCellType() != Cell.CELL_TYPE_STRING) {
+                                                fecha = cellActual.getDateCellValue();
+                                            } else {
+                                                textoCelda = cellActual.getStringCellValue();
+                                                try {
+                                                    fecha = sdf.parse(textoCelda);
+                                                } catch (ParseException ex) {
+                                                    RESP = "formatoInvalido||dateInvalid_<strong>" + ex.getMessage() + "<p>Hoja no. " + (i + 1) + "<p>Fila no. " + (j + 1) + "<strong>";
+                                                    return RESP;
+                                                }
+                                            }
+                                            if (fecha != null) {
+                                                filaActual[k] = sdf.format(fecha);
+                                            } else {
+                                                filaActual[k] = "";
+                                            }
+                                        } else {
+                                            if (k == 8 || k == 11 || k == 12 || k == 16) {
+                                                if (cellActual.getCellType() == Cell.CELL_TYPE_BLANK) {
+                                                    filaActual[k] = "";
+                                                }
+                                            } else {
+                                                RESP = "formatoInvalido||dateInvalid_<strong>Celda con formato incorrecto o en blanco<p>Hoja no. " + (i + 1) + "<p>Fila no. " + (j + 1) + "<strong>";
+                                                return RESP;
+                                            }
                                         }
+
                                     } else {
-                                        RESP = "formatoInvalido||dateInvalid_<strong>Celda con formato incorrecto o en blanco<p>Hoja no. " + (i + 1) + "<p>Fila no. " + (j + 1) + "<strong>";
-                                        return RESP;
-                                    }
-                                }
-                            } else {                      
-
-                                switch (cellActual.getCellType()) {
-                                    case Cell.CELL_TYPE_NUMERIC:
-                                        cellActual.setCellType(1);
-                                        filaActual[k] = cellActual.getStringCellValue() + "".trim();
-                                        break;
-                                    case Cell.CELL_TYPE_STRING:
-                                        filaActual[k] = cellActual.getStringCellValue().trim();
-                                        break;
-                                    case Cell.CELL_TYPE_BLANK:
-                                        filaActual[k] = "".trim();
-                                        break;
-                                }
-                            }
-                            
-                            if (k == COLUMNAS_A_LEER_EXCEL - 1) {
-                                //Se recibe un objeto ( un array con las validaciones y una lista con las celdas que estan vacias )
-                                Object[] resultado = validarCampos(filaActual);
-                                //Metemos las validaciones en el array
-                                /*
-                                    Pos 0 - Esta completo
-                                    Pos 1 - Fila vacia
-                                */
-                                boolean[] valido = (boolean[]) resultado[0];
-                                //Metemos las lista
-
-                                //Lista con las celdas que estan vacias
-
-                                List<Integer> celdasVacias = (List<Integer>) resultado[1];
-
-                                if(celdasVacias.size() > 0){
-                                    for (int l = 0; l < celdasVacias.size(); l++) {
-                                        cadenaCeldasVacias += celdaALetra[celdasVacias.get(l)] + ",";
+                                        switch (cellActual.getCellType()) {
+                                            case Cell.CELL_TYPE_NUMERIC:
+                                                cellActual.setCellType(1);
+                                                filaActual[k] = cellActual.getStringCellValue() + "";
+                                                break;
+                                            case Cell.CELL_TYPE_STRING:
+                                                filaActual[k] = cellActual.getStringCellValue();
+                                                break;
+                                            case Cell.CELL_TYPE_BLANK:
+                                                filaActual[k] = "";
+                                                break;
+                                        }
                                     }
                                 }
 
-                                //Validacion para verificar si la fila esta vacia
-                                if(valido[1]){
-                                    RESP = "infoTituloIncompleta||<p style='color: #545454;'>Se detectó que la <strong>fila " + (j + 1) + "</strong> esta vacía.</p><p><strong>Nombre Hoja: " + libro.getSheetName(i) + "</strong></p><p><strong>No. Hoja: " + (i+1)  + "</strong></p><p style='color: #545454;'>Por favor verifica la información y vuelva a intentarlo nuevamente.</p>";
-                                    return RESP;
-  
+                                if (k == COLUMNAS_A_LEER_EXCEL - 1) {
+                                    boolean valido[] = validarCampos(filaActual);
+                                    if (!valido[1]) {
+                                        data.add(filaActual);
+                                        break;
+                                    }
                                 }
 
-                                //Validacion para verificar si la fila esta completa
-                                if(!valido[0]){
-                                    RESP = "infoTituloIncompleta||<p style='color: #545454;'>Se detectó que en la <strong>fila " + (j + 1) + "</strong> hay celdas vacías.</p><p><small>Celdas vacías: <strong>" + cadenaCeldasVacias + "</strong></small></p><p><strong>Nombre Hoja: " + libro.getSheetName(i) + "</strong></p><p><strong>No. Hoja: " + (i+1)  + "</strong></p><p style='color: #545454;'>Por favor verifica la información y vuelva a intentarlo nuevamente.</p>";
-                                    return RESP;
-                                }
-                                
-                                String validarFechas = validarFechasExamen(filaActual[9], filaActual[10]);
-                                
-                                if(validarFechas.contains("fechasExamenInvalidas")){
-                                    return validarFechas + "<p style='color: #545454;'><strong>Nombre Hoja: </strong>" + libro.getSheetName(i) + "</p>"
-                                            + "<p style='color: #545454;'><strong>NO. Hoja: </strong>" + (i+1) + "</p>"
-                                            + "<p style='color: #545454;'><strong>Fila: </strong>" + (j + 1) + "</p>";
-                                }
+//                                if (k <= 22 && j > 3) {
+//                                    if (validarInfoTitulo(filaActual)) {
+//                                        data.add(filaActual);
+//                                        break;
+//                                    } else {
+//                                        RESP = "infoTituloIncompleta||" + (i + 1);
+//                                        return RESP;
+//                                    }
+//                                }
                             }
                         }
-   
-                        //Comenzamos con la insercion del titulo
-                        String cadenaFirmantes = validarFirmantes(filaActual[17], filaActual[19], j);
-                        if (cadenaFirmantes.contains("noFirmante")) {
-                            RESP = "noFirmante||"
-                                    + "<p style='color: #545454;'>La CURP ingresada en la <b>hoja " + (i + 1) + "</b> con el <b>nombre " + libro.getSheetName(i) + "</b> en la <b>fila " + (j + 1) + "</b> no corresponde a ningún firmante dentro del sistema. <br>Verifica el archivo e intenta de nuevo.</p>";
+                    }
+                }
+                boolean[] valido = {};
+                if (!data.isEmpty()) {
+                    if (data.get(0)[0].equalsIgnoreCase("* Matrícula del alumno")
+                            && data.get(0)[1].equalsIgnoreCase("* Id de Carrera")
+                            && data.get(0)[2].equalsIgnoreCase("Nombre Carrera")
+                            && data.get(0)[3].equalsIgnoreCase("Nombre del Alumno")
+                            && data.get(0)[4].equalsIgnoreCase("* Modalidad de Titulación")
+                            && data.get(0)[5].equalsIgnoreCase("* Lugar de Expedición")
+                            && data.get(0)[6].equalsIgnoreCase("* Servicio Social")
+                            && data.get(0)[7].equalsIgnoreCase("* Fundamento Legal")
+                            && data.get(0)[8].equalsIgnoreCase("Fecha Inicio")
+                            && data.get(0)[9].equalsIgnoreCase("* Fecha Fin")
+                            && data.get(0)[10].equalsIgnoreCase("* Fecha Expedición")
+                            && data.get(0)[11].equalsIgnoreCase("Fecha Examen Profesional")
+                            && data.get(0)[12].equalsIgnoreCase("Fecha Exención Examen Profesional")
+                            && data.get(0)[13].equalsIgnoreCase("* Institución de Procedencia")
+                            && data.get(0)[14].equalsIgnoreCase("* Tipo Estudio Antecedente")
+                            && data.get(0)[15].equalsIgnoreCase("* Entidad Antecedente")
+                            && data.get(0)[16].equalsIgnoreCase("Fecha Inicio Antecedente")
+                            && data.get(0)[17].equalsIgnoreCase("* Fecha Fin Antecedente")
+                            && data.get(0)[18].equalsIgnoreCase("No. Cédula")
+                            && data.get(0)[19].equalsIgnoreCase("* CURP Firmante")
+                            && data.get(0)[20].equalsIgnoreCase("Nombre Firmante")
+                            && data.get(0)[21].equalsIgnoreCase("CURP Firmante")
+                            && data.get(0)[22].equalsIgnoreCase("Nombre Firmante")) {
+
+                        if (data.size() > FILAS_DESPUES_ENCABEZADOS) {
+                            for (int q = FILAS_DESPUES_ENCABEZADOS; q < data.size(); q++) {
+                                valido = validarCampos(data.get(q));
+                                if (!valido[0]) {
+                                    RESP = "infoTituloIncompleta||" + (i + 1) + "||" + (q + 3);
+                                    return RESP;
+                                }
+
+                                String cadenaFirmantes = validarFirmantes(data.get(q)[19], data.get(q)[21], q);
+                                if (cadenaFirmantes.contains("noFirmante")) {
+                                    RESP = cadenaFirmantes.split("\\|")[0] + "||" + (i + 1) + "||" + cadenaFirmantes.split("\\|")[1];
+                                    break;
+                                }
+                                Alumno a = new Alumno();
+                                TETitulosCarreras ttc = new TETitulosCarreras();
+
+                                TETituloElectronico tee = new TETituloElectronico();
+
+                                a.setMatricula(data.get(q)[0]);
+                                ttc.setId_Carrera_Excel(data.get(q)[1]);
+                                ttc.setNombreCarrera(data.get(q)[2]);
+
+                                tee.setID_ModalidadTitulacion(data.get(q)[4]);
+                                tee.setID_EntidadFederativa(data.get(q)[5]);
+                                tee.setCumplioServicioSocial(data.get(q)[6]);
+                                tee.setID_FundamentoLegalServicioSocial(data.get(q)[7]);
+                                tee.setFechaInicio(data.get(q)[8]);
+                                tee.setFechaTerminacion(data.get(q)[9]);
+                                tee.setFechaExpedicion(data.get(q)[10]);
+                                tee.setFechaExamenProfesional(data.get(q)[11]);
+                                tee.setFechaExtensionExamenProfesional(data.get(q)[12]);
+                                tee.setInstitucionProcedencia(data.get(q)[13]);
+                                tee.setID_TipoEstudioAntecedente(data.get(q)[14]);
+                                tee.setID_EntidadFederativaAntecedente(data.get(q)[15]);
+                                tee.setFechaInicioAntecedente(data.get(q)[16]);
+                                tee.setFechaTerminacionAntecedente(data.get(q)[17]);
+                                tee.setNoCedula(data.get(q)[18]);
+                                tee.setVersion("1.0");
+
+                                tee.setAlumno(a);
+                                tee.setCarrera(ttc);
+
+                                /**
+                                 * @matriculaAlumno varchar(100),
+                                 * @idCarreraExcel int,
+                                 * @version varchar(5),
+                                 * @fechaInicio varchar(15),
+                                 * @fechaFin varchar(15),
+                                 * @modalidadTitulacion varchar(1000),
+                                 * @fechaExamenProfesional varchar(15),
+                                 * @fechaExcencionExamenProfesional varchar(15),
+                                 * @servicioSocial int,
+                                 * @fundamentoLegalServicio varchar(1000),
+                                 * @lugarExpedicion varchar(150),
+                                 * @institucionProcedencia varchar(500),
+                                 * @tipoEstudioAntecedente varchar(500),
+                                 * @entidadAntecedente varchar(150),
+                                 * @fechaInicioAntecedente varchar(15),
+                                 * @fechaFinAntecedente varchar(15),
+                                 * @noCedula varchar(8),
+                                 * @idUsuario int,
+                                 * @fechaExpedicion varchar(10),
+                                 * @respuesta varchar(16) OUT
+                                 */
+                                String Query = "{call Add_Titulo_Excel (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+                                con = conexion.GetconexionInSite();
+                                cstmt = con.prepareCall(Query);
+                                cstmt.setString(1, tee.getAlumno().getMatricula());
+                                cstmt.setString(2, tee.getCarrera().getId_Carrera_Excel());
+                                cstmt.setString(3, "1.0");
+                                cstmt.setString(4, tee.getFechaInicio().trim().equalsIgnoreCase("") ? null : tee.getFechaInicio().trim());
+                                cstmt.setString(5, tee.getFechaTerminacion());
+                                cstmt.setString(6, tee.getID_ModalidadTitulacion());
+                                cstmt.setString(7, (tee.getFechaExamenProfesional().trim().equalsIgnoreCase("") ? null : tee.getFechaExamenProfesional().trim()));
+                                cstmt.setString(8, (tee.getFechaExtensionExamenProfesional().trim().equalsIgnoreCase("") ? null : tee.getFechaExtensionExamenProfesional().trim()));
+                                cstmt.setInt(9, tee.getCumplioServicioSocial().contains("NO") ? 0 : 1);
+                                cstmt.setString(10, tee.getID_FundamentoLegalServicioSocial());
+                                cstmt.setString(11, tee.getID_EntidadFederativa());
+                                cstmt.setString(12, tee.getInstitucionProcedencia());
+                                cstmt.setString(13, tee.getID_TipoEstudioAntecedente());
+                                cstmt.setString(14, tee.getID_EntidadFederativaAntecedente());
+                                cstmt.setString(15, (tee.getFechaInicioAntecedente().trim().equalsIgnoreCase("") ? null : tee.getFechaInicioAntecedente()));
+                                cstmt.setString(16, tee.getFechaTerminacionAntecedente());
+                                cstmt.setString(17, (tee.getNoCedula().trim().equalsIgnoreCase("") ? null : tee.getNoCedula()));
+                                cstmt.setInt(18, Integer.valueOf(Id_Usuario));
+                                cstmt.setString(19, tee.getFechaExpedicion());
+                                cstmt.registerOutParameter(20, java.sql.Types.VARCHAR);
+
+                                cstmt.execute();
+
+                                RESP = cstmt.getString(20);
+                                if (!RESP.contains("tituloActivo") && !RESP.contains("Error:") && !RESP.contains("sinConfiguracion") && !RESP.contains("noCarrera") && !RESP.contains("noAlumno")) {
+                                    String[] datosTitulo = RESP.split(",");
+                                    String[] idFirmante = cadenaFirmantes.split(",");
+                                    for (int k = 0; k < idFirmante.length; k++) {
+                                        con.close();
+                                        cstmt.close();
+                                        con = conexion.GetconexionInSite();
+                                        cstmt = null;
+                                        //Query = "SET LANGUAGE 'español'; EXECUTE Add_FirmanteTitulo " + datosTitulo[0] + "," + idFirmante[i];
+                                        Query = "{call Add_FirmanteTitulo (?,?)}";
+                                        cstmt = con.prepareCall(Query);
+                                        cstmt.setInt(1, Integer.valueOf(datosTitulo[0]));
+                                        cstmt.setInt(2, Integer.valueOf(idFirmante[k]));
+                                        cstmt.execute();
+                                        if (cstmt.getResultSet() == null && cstmt.getUpdateCount() != -1) {
+                                            RESP = "success";
+                                            cadenaIdTitulos += datosTitulo[0] + ",";
+                                        } else {
+                                            return "errorFirmantes||" + (i + 1) + "||" + (k + 1);
+                                        }
+                                    }
+                                    bitacora.setInformacion("Registro de Titulo||Respuesta Método: " + RESP);
+                                    cBitacora = new CBitacora(bitacora);
+                                    cBitacora.setRequest(request);
+                                    cBitacora.addBitacoraGeneral();
+                                } else {
+                                    return RESP + "||" + (i + 1) + "||" + tee.getAlumno().getMatricula() + "||" + (q + 3);
+                                }
+                            }
+                        } else {
+                            RESP = "sinRegistros" + "||" + (i + 1);
+                            cadenaIdTitulos = "";
                             break;
                         }
-                        Alumno a = new Alumno();
-                        TETitulosCarreras ttc = new TETitulosCarreras();
-                        TETituloElectronico tee = new TETituloElectronico();
 
-                        a.setMatricula(filaActual[0]); 
-                        ttc.setId_Carrera_Excel(filaActual[1]);
-                        ttc.setNombreCarrera(filaActual[2]);
-
-                        tee.setID_ModalidadTitulacion(filaActual[4]);
-                        tee.setID_EntidadFederativa(filaActual[5]);
-                        tee.setCumplioServicioSocial(filaActual[6]);
-                        tee.setID_FundamentoLegalServicioSocial(filaActual[7]);
-                        tee.setFechaExpedicion(filaActual[8]);
-                        tee.setFechaExamenProfesional(filaActual[9]);
-                        tee.setFechaExtensionExamenProfesional(filaActual[10]);
-                        tee.setInstitucionProcedencia(filaActual[11]);
-                        tee.setID_TipoEstudioAntecedente(filaActual[12]);
-                        tee.setID_EntidadFederativaAntecedente(filaActual[13]);
-                        tee.setFechaInicioAntecedente(filaActual[14]);
-                        tee.setFechaTerminacionAntecedente(filaActual[15]);
-                        tee.setNoCedula(filaActual[16]);
-                        tee.setVersion("1.0");
-
-                        tee.setAlumno(a);
-                        tee.setCarrera(ttc);
-                        
-                        //Buscamos las fechas de inicio del alumno
-                        conexion = new CConexion();
-                        conexion.setRequest(request);
-                        con = null;
-                        pstmt = null;
-
-                        String QueryAlumno = "SELECT Id_Alumno, FechaInicioCarrera, FechaFinCarrera FROM Alumnos WHERE ID_Carrera = (SELECT ID_Carrera FROM Carrera WHERE Id_Carrera_Excel = " + tee.getCarrera().getId_Carrera_Excel() + ") AND Matricula = '" + tee.getAlumno().getMatricula() + "'";
-                        con = conexion.GetconexionInSite();
-                        pstmt = con.prepareStatement(QueryAlumno);
-                        rs = pstmt.executeQuery();
-                        
-                        if(!rs.isBeforeFirst()){
-                            RESP = "noAlumno||"
-                                    + "<p style='color: #545454;'>No se encontraron registros para el alumno ingresado con la <strong>matrícula " + tee.getAlumno().getMatricula() + "</strong>. Por favor verifica que la matrícula y la carrera del alumno coincidan.</p>"
-                                    + "<p><strong>Nombre Hoja: </strong>" + libro.getSheetName(i) + "</p>"
-                                    + "<p><strong>No. Hoja: </strong>" + (i + 1)  + "</p>"
-                                    + "<p style='color: #545454;'><strong>Fila: </strong>" + (j + 1) + "</p>";
-                            return RESP;
-                        }
-
-                        List<Alumno> lstAlumno = new ArrayList<>();
-                        while(rs.next()){
-                            Alumno alumno = new Alumno();
-
-                            alumno.setId_Alumno(rs.getString("Id_Alumno"));
-                            alumno.setFechaInicioCarrera(rs.getString("FechaInicioCarrera"));
-                            alumno.setFechaFinCarrera(rs.getString("FechaFinCarrera"));
-
-                            lstAlumno.add(alumno);
-                        }
-                        
-                        /*
-                            * @matriculaAlumno varchar(100),
-                            * @idCarreraExcel int,
-                            * @version varchar(5),
-                            * @fechaInicio varchar(15),
-                            * @fechaFin varchar(15),
-                            * @modalidadTitulacion varchar(1000),
-                            * @fechaExamenProfesional varchar(15),
-                            * @fechaExcencionExamenProfesional varchar(15),
-                            * @servicioSocial int,
-                            * @fundamentoLegalServicio varchar(1000),
-                            * @lugarExpedicion varchar(150),
-                            * @institucionProcedencia varchar(500),
-                            * @tipoEstudioAntecedente varchar(500),
-                            * @entidadAntecedente varchar(150),
-                            * @fechaInicioAntecedente varchar(15),
-                            * @fechaFinAntecedente varchar(15),
-                            * @noCedula varchar(8),
-                            * @idUsuario int,
-                            * @fechaExpedicion varchar(10),
-                            * @respuesta varchar(16) OUT
-                        */
-                        String Query = "{call Add_Titulo_Excel (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
-                        con = conexion.GetconexionInSite();
-                        cstmt = con.prepareCall(Query);
-                        cstmt.setString(1, tee.getAlumno().getMatricula());
-                        cstmt.setString(2, tee.getCarrera().getId_Carrera_Excel());
-                        cstmt.setString(3, "1.0");
-                        cstmt.setString(4, lstAlumno.get(0).getFechaInicioCarrera().trim().equalsIgnoreCase("") ? null : lstAlumno.get(0).getFechaInicioCarrera().trim());
-                        cstmt.setString(5, lstAlumno.get(0).getFechaFinCarrera().trim());
-                        cstmt.setString(6, tee.getID_ModalidadTitulacion());
-                        cstmt.setString(7, (tee.getFechaExamenProfesional().trim().equalsIgnoreCase("") ? null : tee.getFechaExamenProfesional().trim()));
-                        cstmt.setString(8, (tee.getFechaExtensionExamenProfesional().trim().equalsIgnoreCase("") ? null : tee.getFechaExtensionExamenProfesional().trim()));
-                        cstmt.setInt(9, tee.getCumplioServicioSocial().contains("NO") ? 0 : 1);
-                        cstmt.setString(10, tee.getID_FundamentoLegalServicioSocial());
-                        cstmt.setString(11, tee.getID_EntidadFederativa());
-                        cstmt.setString(12, tee.getInstitucionProcedencia());
-                        cstmt.setString(13, tee.getID_TipoEstudioAntecedente());
-                        cstmt.setString(14, tee.getID_EntidadFederativaAntecedente());
-                        cstmt.setString(15, (tee.getFechaInicioAntecedente().trim().equalsIgnoreCase("") ? null : tee.getFechaInicioAntecedente()));
-                        cstmt.setString(16, tee.getFechaTerminacionAntecedente());
-                        cstmt.setString(17, (tee.getNoCedula().trim().equalsIgnoreCase("") ? null : tee.getNoCedula()));
-                        cstmt.setInt(18, Integer.valueOf(Id_Usuario));
-                        cstmt.setString(19, tee.getFechaExpedicion());
-                        cstmt.registerOutParameter(20, java.sql.Types.VARCHAR);
-
-                        cstmt.execute();
-
-                        RESP = cstmt.getString(20);
-                        
-                        if(RESP.contains("tituloActivo")){
-                            RESP = "tituloActivo||"
-                                    + "<p style='color: #545454;'>La información ingresada coincide con un registro existente, puedes editar su información o eliminarlo y generar un nuevo registro.</p>"
-                                    + "<p><strong>Nombre Hoja: </strong>" + libro.getSheetName(i) + "</p>"
-                                    + "<p><strong>No. Hoja: </strong>" + (i + 1)  + "</p>"
-                                    + "<p style='color: #545454;'><strong>Fila: </strong>" + (j + 1) + "</p>";
-                            return RESP;
-                        }
-                        if(RESP.contains("noCarrera")){
-                            RESP = "noCarrera||"
-                                    + "<p style='color: #545454;'>El id de carrera no coincide con un registro existente para el alumno con matricula: <b>" + tee.getAlumno().getMatricula() + "</b>. <br>Verifica la información ingresada.</p>"
-                                    + "<p><strong>Nombre Hoja: </strong>" + libro.getSheetName(i) + "</p>"
-                                    + "<p><strong>No. Hoja: </strong>" + (i + 1)  + "</p>"
-                                    + "<p style='color: #545454;'><strong>Fila: </strong>" + (j + 1) + "</p>";
-                            return RESP;
-                        }
-                        if(RESP.contains("noAlumno")){
-                            RESP = "noAlumno||"
-                                    + "<p style='color: #545454;'>No se encontraron registros para el alumno ingresado. Por favor verifica la matrícula y la carrera del alumno coincidan.</p>"
-                                    + "<p><strong>Nombre Hoja: </strong>" + libro.getSheetName(i) + "</p>"
-                                    + "<p><strong>No. Hoja: </strong>" + (i + 1)  + "</p>"
-                                    + "<p style='color: #545454;'><strong>Fila: </strong>" + (j + 1) + "</p>"
-                                    + "<p style='color: #545454;'><strong>Matrícula: </strong> " + tee.getAlumno().getMatricula() + "</p>";
-                            return RESP;
-                        }
-                        if(RESP.contains("sinConfiguracion")){
-                            RESP = "sinConfiguracion||"
-                                    + "<p style='color: #545454;'>No se tiene ingresada la configuración inicial. Por favor realiza la configuración y vuelve a intentarlo.</p>";
-                            return RESP;
-                        }
-                        
-                        if(RESP.contains("Error:")){
-                            RESP = "error||"
-                                    + "<p style='color: #545454;'>Ocurrió un error al registrar el titulo. Verifica la información y vuelve a intentarlo.</p>"
-                                    + "<p><strong>Nombre Hoja: </strong>" + libro.getSheetName(i) + "</p>"
-                                    + "<p><strong>No. Hoja: </strong>" + (i + 1)  + "</p>"
-                                    + "<p style='color: #545454;'><strong>Fila: </strong>" + (j + 1) + "</p>";
-                            return RESP;
-                        }
-
-                        String[] datosTitulo = RESP.split(",");
-                        String[] idFirmante = cadenaFirmantes.split(",");
-                        for (int k = 0; k < idFirmante.length; k++) {
-                            con.close();
-                            cstmt.close();
-                            con = conexion.GetconexionInSite();
-                            cstmt = null;
-                            //Query = "SET LANGUAGE 'español'; EXECUTE Add_FirmanteTitulo " + datosTitulo[0] + "," + idFirmante[i];
-                            Query = "{call Add_FirmanteTitulo (?,?)}";
-                            cstmt = con.prepareCall(Query);
-                            cstmt.setInt(1, Integer.valueOf(datosTitulo[0]));
-                            cstmt.setInt(2, Integer.valueOf(idFirmante[k]));
-                            cstmt.execute();
-                            if (cstmt.getResultSet() == null && cstmt.getUpdateCount() != -1) {
-                                RESP = "success";
-                                cadenaIdTitulos += datosTitulo[0] + ",";
-                            } else {
-                                return "errorFirmantes||" + (i + 1) + "||" + (k + 1);
-                            }
-                        }
-                        bitacora.setInformacion("Registro de Titulo||Respuesta Método: " + RESP);
-                        cBitacora = new CBitacora(bitacora);
-                        cBitacora.setRequest(request);
-                        cBitacora.addBitacoraGeneral();
-                        
+                    } else {
+                        RESP = "formatoInvalido";
+                        cadenaIdTitulos = "";
+                        break;
                     }
+                } else {
+                    RESP = "formatoInvalido";
+                    cadenaIdTitulos = "";
+                    break;
                 }
             }
 
@@ -1474,11 +1364,13 @@ public class CTitulos {
             String Query = "SELECT A.ID_Carrera, C.Descripcion, C.Clave, A.ID_Alumno, P.Nombre, P.APaterno,"
                     + " CONVERT(date, A.FechaInicioCarrera) AS fechaInicioCarrera, "
                     + " CONVERT(date, A.FechaFinCarrera) AS fechaFinCarrera, "
-                    + " P.AMaterno, TCT.id_carrera AS 'ID_CarreraTitulo' "
+                    + " P.AMaterno, TCT.id_carrera AS 'ID_CarreraTitulo', a.Escuela_Origen, a.fechaInicioAntecedente, a.fechaFinAntecedente, tet.idTipoEstudioAntecedente, tte.idEntidadFederativa"
                     + " FROM Alumnos AS A "
                     + " JOIN Persona AS P ON P.Id_Persona = A.ID_Persona "
                     + " JOIN Carrera AS C ON C.ID_Carrera = A.ID_Carrera "
                     + " JOIN TETitulosCarreras AS TCT ON TCT.Id_Carrera_Excel = C.Id_Carrera_Excel "
+                    + " LEFT JOIN TEtipoEstudioAntecedente as tet on tet.tipoEstudioAntecedente = a.tipoAntecedente "
+                    + " LEFT JOIN TEEntidad as tte on tte.EntidadFederativa = a.estadoAntecedente"
                     + " WHERE A.Matricula = ? AND A.estatus = 1 "
                     + " AND A.ID_Alumno NOT IN ( "
                     + "     SELECT TE.id_profesionista "
@@ -1501,6 +1393,11 @@ public class CTitulos {
 
                 a.setID_Carrera(rs.getString("ID_Carrera"));
                 a.setId_Alumno(rs.getString("ID_Alumno"));
+                a.setEscuelaOrigen(rs.getString("Escuela_Origen") == null ? "" : rs.getString("Escuela_Origen"));
+                a.setFechaInicioAntecedente(rs.getString("fechaInicioAntecedente") == null ? "" : rs.getString("fechaInicioAntecedente"));
+                a.setFechaFinAntecedente(rs.getString("fechaFinAntecedente") == null ? "" : rs.getString("fechaFinAntecedente"));
+                a.setTipoEstudioAntecedente(rs.getString("idTipoEstudioAntecedente") == null ? "" : rs.getString("idTipoEstudioAntecedente"));
+                a.setEstadoAntecedente(rs.getString("idEntidadFederativa") == null ? "" : rs.getString("idEntidadFederativa"));
                 fecha = parseador.parse(rs.getString("FechaInicioCarrera"));
                 a.setFechaInicioCarrera(formateador.format(fecha));
                 fecha = parseador.parse(rs.getString("FechaFinCarrera"));
@@ -1543,7 +1440,7 @@ public class CTitulos {
                     RESP += "<option value='" + lstAlumnos.get(i).getCarrera().getID_Carrera() + "' data-idAlumno='" + lstAlumnos.get(i).getId_Alumno() + "' data-idCarrera='" + lstAlumnos.get(i).getID_Carrera() + "' data-inicio='" + lstAlumnos.get(i).getFechaInicioCarrera() + "' data-fin='" + lstAlumnos.get(i).getFechaFinCarrera() + "'>" + lstAlumnos.get(i).getCarrera().getDescripcion() + "</option>";
                 }
 
-                RESP += "||" + lstAlumnos.get(0).getPersona().getNombre() + " " + lstAlumnos.get(0).getPersona().getAPaterno() + (lstAlumnos.get(0).getPersona().getAMaterno() == null ? "" : " " + lstAlumnos.get(0).getPersona().getAMaterno());
+                RESP += "||" + lstAlumnos.get(0).getPersona().getNombre() + " " + lstAlumnos.get(0).getPersona().getAPaterno() + (lstAlumnos.get(0).getPersona().getAMaterno() == null ? "" : " " + lstAlumnos.get(0).getPersona().getAMaterno()) + "||" + lstAlumnos.get(0).getEscuelaOrigen() + "||" + lstAlumnos.get(0).getFechaInicioAntecedente() + "||" + lstAlumnos.get(0).getFechaFinAntecedente() + "||" + lstAlumnos.get(0).getTipoEstudioAntecedente() + "||" + lstAlumnos.get(0).getEstadoAntecedente();
             }
 
         } catch (SQLException ex) {
@@ -3970,41 +3867,39 @@ public class CTitulos {
      * @param infoTitulo fila actual
      * @return boolean [0] = información completa. [1] = es fila vacia.
      */
-    private Object[] validarCampos(String[] infoTitulo) {
+    private boolean[] validarCampos(String[] infoTitulo) {
         boolean complete = true;
         boolean filaVacia = false;
-        //Se utiliza un objeto potque no sabemos cuantas filas saldran vacias
-        //Y un numero maximo, pero se utilizo una lista
-        List<Integer> celdasVacias = new ArrayList<>();
-
         boolean[] validaciones = new boolean[2];
         int contador = 0;
 
+        /**
+         * NO LEERMOS LAS COLUMNAS DE:
+         */
+        //Nombre Carrera = 2
+        //Nombre del Alumno = 3
+        //FECHA INICIO = 8
+        //Fecha Examen Profesional = 11
+        //Fecha Exención Examen Profesional = 12
+        //Fecha Inicio Antecedente = 16
+        //No. Cédula = 18
+        // NOMBRE FIRMANTE = 20
+        // CURP FIRMANTE NO OBLIGATORIO = 21 
+        // NOMBRE FIRMANTE NO OBLIGATORIO = 22 
         for (int i = 0; i < infoTitulo.length - 1; i++) {
-
-            if ((infoTitulo[i] == null || infoTitulo[i].toString().trim().equalsIgnoreCase("")) && (
-                    i != 2 && i != 3 
-                    && i != 9 
-                    && i != 10 
-                    && i != 14 
-                    && i != 16 
-                    && i != 18 
-                    && i != 19 
-                    && i != 20)) {
+            if ((infoTitulo[i] == null || infoTitulo[i].trim().equalsIgnoreCase("")) && (i != 2 && i != 3 && i != 8 && i != 11 && i != 12 && i != 16 && i != 18 && i != 20 && i != 21 && i != 22)) {
                 complete = false;
                 contador++;
-                celdasVacias.add(i);
             }
         }
 
-        if (contador == infoTitulo.length - 9) {
+        if (contador == infoTitulo.length - 10) {
             filaVacia = true;
         }
 
         validaciones[0] = complete;
         validaciones[1] = filaVacia;
-
-        return new Object[] { validaciones, celdasVacias };
+        return validaciones;
     }
     
     private String validarFechasExamen(String fechaExamen, String fechaExencion){

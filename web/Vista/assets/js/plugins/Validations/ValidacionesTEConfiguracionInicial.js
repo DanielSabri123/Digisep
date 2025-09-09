@@ -330,6 +330,9 @@ $(document).ready(function () {
                         if(stringStepFirst.split("¬")[5].includes("0")){
                             $("#btnNuevaClave").remove();
                         }
+                        if(stringStepFirst.split("¬")[6].includes("0")){
+                            $("#btn-modal-configurar-conexion-click").remove();
+                        }
                     } else {
                         $(".noPermisson").show();
                         $("#fullContent").html("");
@@ -343,6 +346,179 @@ $(document).ready(function () {
             }
         });
     }
+
+    /*
+        =====================================================================================
+        =====================================================================================
+        =====================================================================================
+    */
+    $("#btn-modal-configurar-conexion-click").on("click", function(){
+        $('#loadAction').fadeIn();
+        $.ajax({
+            url: '../Transporte/queryCConfiguracionInicial.jsp',
+            data: '&txtBandera=consultarConexionClickEscolar',
+            type: 'POST',
+            success: function (resp) {
+                let resp_split = resp.toString().trim().split("|");
+                
+                if(resp_split[0].toString().trim() == "error"){
+                    swal('¡Ocurrió un error!', resp_split[1].toString().trim(), 'error');
+                    return;
+                }
+                if(resp_split[1].toString().trim() === "vacio"){
+                    $("#btn-guardar-configuracion-conexion-click").hide();
+                    $("#modal-configurar-conexion-click").modal("show");
+                    return;
+                }
+                
+                $("#id-configuracion-click").val(resp_split[1].toString().trim()).trigger("change");
+                
+                $("#clave-institucion-click").val(resp_split[2].toString().trim()).trigger("change");
+                $("#usuario-click").val(resp_split[3].toString().trim()).trigger("change");
+                $("#contrasena-click").val(resp_split[4].toString().trim()).trigger("change");
+                $("#nombre-bd-click").val(resp_split[6].toString().trim()).trigger("change");
+                
+                $("#clave-institucion-click-test").val(resp_split[2].toString().trim());
+                $("#usuario-click-test").val(resp_split[3].toString().trim());
+                $("#contrasena-click-test").val(resp_split[4].toString().trim());
+                
+                $("#test-conexion-click-click").val(resp_split[5].toString().trim());
+                
+                $("#btn-guardar-configuracion-conexion-click").show();
+                $("#modal-configurar-conexion-click").modal("show");
+            }, error: function () {
+                swal('¡Error!', 'Error interno del servidor, contacte a soporte técnico', 'error');
+            }, complete: function () {
+                $('#loadAction').fadeOut();
+            }
+        });
+    });
+
+    $(document).on("input", "#clave-institucion-click, #usuario-click, #contrasena-click", function(){
+        let clave = $("#clave-institucion-click").val();
+        let usuario = $("#usuario-click").val();
+        let contrasena = $("#contrasena-click").val();
+        let claveTest = $("#clave-institucion-click-test").val();
+        let usuarioTest = $("#usuario-click-test").val();
+        let contrasenaTest = $("#contrasena-click-test").val();
+        
+        let testConexion = $("#test-conexion-click-click").val();
+        
+        if(testConexion === "0"){
+           $("#btn-guardar-configuracion-conexion-click").hide(); 
+        }
+        if( testConexion === "1" && (clave !== claveTest || usuario !== usuarioTest || contrasena !== contrasenaTest ) ){
+            $("#btn-guardar-configuracion-conexion-click").hide();
+        }
+        if( testConexion === "1" && clave === claveTest && usuario === usuarioTest && contrasena === contrasenaTest ){
+            $("#btn-guardar-configuracion-conexion-click").show();
+        }        
+    });
+
+    $('#btn-guardar-configuracion-conexion-click').on("click", function () {
+        console.log("Guardando..")
+        
+        let form = $('form[name=form-configurar-conexion-click]');
+        form.removeData("validator");
+        form.off("submit");
+        
+        $('form[name=form-configurar-conexion-click]').submit(function (e) {
+            e.preventDefault();
+        }).validate({
+            ignore: [],
+            errorClass: 'help-block text-right animated fadeInDown',
+            errorElement: 'div',
+            errorPlacement: function (error, e) {
+                jQuery(e).parents('.form-group > div').append(error);
+            },
+            highlight: function (e) {
+                var elem = jQuery(e);
+                elem.closest('.col-xs-12').removeClass('has-error').addClass('has-error');
+                elem.closest('.help-block').remove();
+            },
+            success: function (e) {
+                var elem = jQuery(e);
+                elem.closest('.col-xs-12').removeClass('has-error');
+                elem.closest('.help-block').remove();
+            },
+            rules: {
+                "clave-institucion-click": {
+                    required: true
+                },
+                "usuario-click": {
+                    required: true
+                },
+                "contrasena-click": {
+                    required: true
+                }
+            }, messages: {
+                "clave-institucion-click": {
+                    required: '¡Por favor ingresa la clave de tu institución!'
+                },
+                "usuario-click": {
+                    required: '¡Por favor ingresa el usuario!'
+                },
+                "contrasena-click": {
+                    required: '¡Por favor ingresa la constraseña del usuario!'
+                }
+            },
+            submitHandler: function (form) {
+                $('#loadAction').fadeIn();
+                let idConfiguracion = $("#id-configuracion-click").val();
+                let clave = $("#clave-institucion-click").val();
+                let usuario = $("#usuario-click").val();
+                let contrasena = $("#contrasena-click").val();
+                let nombreBD = $("#nombre-bd-click").val();
+                
+                $.ajax({
+                    url: '../Transporte/queryCConfiguracionInicial.jsp',
+                    data: {
+                        txtBandera: 'guardarConfiguracionConexionClickEscolar',
+                        idConfiguracion: idConfiguracion,
+                        clave: clave,
+                        usuario: usuario,
+                        contrasena: contrasena,
+                        nombreBD: nombreBD
+                    },
+                    type: 'POST',
+                    success: function (resp) {
+                        if(resp.toString().trim().includes("success")){
+                            $("#modal-configurar-conexion-click").modal("hide");
+                            if(idConfiguracion === null || idConfiguracion === "" || idConfiguracion === "undefinded"){
+                                show_swal("¡Configuración Guardada!", "La conexión para Click Escolar se guardo correctamente en el sistema", "success");
+                                return;
+                            }else{
+                                show_swal("¡Configuración Modificada!", "La conexión para Click Escolar se modificó correctamente en el sistema", "success");
+                                return;
+                            }
+                        }
+                        if(resp.toString().trim().includes("error")){
+                            let split_resp = resp.toString().trim().split("|");
+                            show_swal("¡Ocurrió un error!", split_resp[1].toString().trim(), "error");
+                            return;
+                        }
+                    }, error: function () {
+                        swal('¡Error!', 'Error interno del servidor, contacte a soporte técnico', 'error');
+                    }, complete: function () {
+                        $('#loadAction').fadeOut();
+                    }
+                });
+            }
+        });
+    });
+
+    $("#modal-configurar-conexion-click").on("hide.bs.modal", function (e) {
+        $("#btn-guardar-configuracion-conexion-click").show();
+        $("#id-configuracion-click").val("");   
+        $("#clave-institucion-click").val("").trigger("change");
+        $("#usuario-click").val("").trigger("change");
+        $("#contrasena-click").val("").trigger("change");
+        $("#nombre-bd-click").val("").trigger("change");
+        $("#clave-institucion-click-test").val("");
+        $("#usuario-click-test").val("");
+        $("#contrasena-click-test").val("");
+        $("#test-conexion-click-click").val("");
+    });
 
     /**
      * Función global para manejo de errores con ajax

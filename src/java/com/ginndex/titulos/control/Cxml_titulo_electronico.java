@@ -378,9 +378,13 @@ public class Cxml_titulo_electronico {
                 attr_segundoApellido_profesionista.setValue(cadena_nodo_profesionista[3]);
                 Profesionista.setAttributeNode(attr_segundoApellido_profesionista);
                 //cadena_original += "|" + cadena_nodo_profesionista[3];
-            } else {
-                //cadena_original += "|";
+            } 
+            if(cadena_nodo_profesionista[3].trim().equalsIgnoreCase("^") && cadena_nodo_profesionista[0].trim().equalsIgnoreCase("EXTRANJERO")){
+                Attr attr_segundoApellido_profesionista = doc.createAttribute("segundoApellido");
+                attr_segundoApellido_profesionista.setValue("");
+                Profesionista.setAttributeNode(attr_segundoApellido_profesionista);
             }
+            
             //correoElectronico
             Attr attr_correoElectronico_profesionista = doc.createAttribute("correoElectronico");
             attr_correoElectronico_profesionista.setValue(cadena_nodo_profesionista[4]);

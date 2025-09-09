@@ -232,6 +232,9 @@ $(document).ready(function () {
                         if (stringStepFirst.split("¬")[5].includes("0")) {
                             $("#btnImportarCalifsExcel").remove();
                         }
+                        if (stringStepFirst.split("¬")[6].includes("0")) {
+                            $("#btn-descargar-calificaciones-click").remove();
+                        }
                     } else {
                         $(".noPermisson").show();
                         $("#fullContent").html("");

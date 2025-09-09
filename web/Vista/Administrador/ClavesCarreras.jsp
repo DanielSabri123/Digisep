@@ -257,6 +257,7 @@
                                     </li>
                                 </ul>
                             </div>
+  
                             <div class="block-content">
                                 <div id="DivTblCarreras">
                                     <table class="table table-bordered table-condensed table-striped js-dataTable-full-pagination-Fixed" style="width:100%;"  id="tblCarreras">

@@ -220,6 +220,9 @@ $(document).ready(function () {
                         if (stringStepFirst.split("¬")[5].includes("0")) {
                             $("#btnImportarCarrerasExcel").remove();
                         }
+                        if (stringStepFirst.split("¬")[6].includes("0")) {
+                            $("#btn-descargar-carreras-click").remove();
+                        }
                     } else {
                         $(".noPermisson").show();
                         $("#fullContent").html("");

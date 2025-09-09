@@ -887,6 +887,9 @@ $(document).ready(function () {
                         if (stringStepFirst.split("¬")[3].includes("0")) {
                             $("#ButtonUpdateCarrera").remove();
                         }
+                        if (stringStepFirst.split("¬")[6].includes("0")) {
+                            $("#btn-descargar-claves-carrera-click").remove();
+                        }
                     } else {
                         $(".noPermisson").show();
                         $("#fullContent").html("");

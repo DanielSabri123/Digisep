@@ -10,6 +10,8 @@ import com.ginndex.titulos.modelo.ConfiguracionInicial;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -131,27 +133,40 @@ public class CConfiguracionInicial {
         requestProvisional.setCharacterEncoding("UTF-8");
 
         try {
-
-            if (Bandera.equalsIgnoreCase("0")) {
-                DiskFileItemFactory factory = new DiskFileItemFactory();
-                factory.setSizeThreshold(1024);
-                ServletFileUpload up = new ServletFileUpload(factory);
-                up.setHeaderEncoding("UTF-8");
-                boolean isMultipart = ServletFileUpload.isMultipartContent(requestProvisional);
-                if (isMultipart) {
-                    List<FileItem> partes = up.parseRequest(requestProvisional);
-                    Bandera = getDat(partes);
-                }
-            }
-
-            if (Bandera.equalsIgnoreCase("1")) {
-                RESP = cargarConfiguracion();
-            } else if (Bandera.equalsIgnoreCase("2")) {
-                RESP = addConfiguracion();
-            } else if (Bandera.equalsIgnoreCase("3")) {
-                RESP = updConfiguracion();
-            } else if (Bandera.equalsIgnoreCase("4")) {
-                RESP = add_ClaveAutorizacion();
+            switch(Bandera){
+                case "0":
+                    DiskFileItemFactory factory = new DiskFileItemFactory();
+                    factory.setSizeThreshold(1024);
+                    ServletFileUpload up = new ServletFileUpload(factory);
+                    up.setHeaderEncoding("UTF-8");
+                    boolean isMultipart = ServletFileUpload.isMultipartContent(requestProvisional);
+                    if (isMultipart) {
+                        List<FileItem> partes = up.parseRequest(requestProvisional);
+                        Bandera = getDat(partes);
+                    }
+                    break;
+                case "1":
+                    RESP = cargarConfiguracion();
+                    break;
+                case "2":
+                    RESP = addConfiguracion();
+                    break;
+                case "3":
+                    RESP = updConfiguracion();
+                    break;
+                case "4":
+                    RESP = add_ClaveAutorizacion();
+                    break;
+                case "consultarConexionClickEscolar":
+                    RESP = consultarConexionClickEscolar();
+                    break;
+                case "guardarConfiguracionConexionClickEscolar":
+                    if(request.getParameter("idConfiguracion") == null || request.getParameter("idConfiguracion").isEmpty() || request.getParameter("idConfiguracion") == "undefined"){
+                        RESP = guardarConexionClickEscolar();
+                    }else{
+                        RESP = modificarConexionClickEscolar();
+                    }
+                    break;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -614,6 +629,128 @@ public class CConfiguracionInicial {
         return RESP;
     }
 
+    public String consultarConexionClickEscolar(){
+        String RESP = "", Query = "";
+        conexion = new CConexion();
+        conexion.setRequest(request);
+        
+        try{
+            Query = "SELECT Id_Configuracion_Click_Escolar, Clave_Institucion, Usuario, Contrasena, Test_Conexion, Nombre_BD FROM Configuracion_Click_Escolar;";
+            con = conexion.GetconexionInSite();
+            pstmt = con.prepareStatement(Query);
+            rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                RESP = "success|" + rs.getInt("Id_Configuracion_Click_Escolar") + "|" +
+                         rs.getString("Clave_Institucion") + "|" +
+                         rs.getString("Usuario") + "|" +
+                         rs.getString("Contrasena") + "|" +
+                         rs.getString("Test_Conexion") + "|" +
+                         rs.getString("Nombre_BD");
+            } else {
+                RESP = "success|vacio";
+            }  
+        }catch(Exception e){
+            e.printStackTrace();
+            RESP = "error|Error al consultar la configuración en la conexión a Click Escolar: " + accion_catch(e);
+        }
+        
+        return RESP;
+    }
+    
+    public String guardarConexionClickEscolar() throws UnsupportedEncodingException{
+        String RESP = "", Query;
+        String clave = request.getParameter("clave");
+        String usuario = request.getParameter("usuario");
+        String contrasena = request.getParameter("contrasena");
+        String nombreBD = request.getParameter("nombreBD");
+        
+        System.out.println(nombreBD);
+        
+        
+        conexion = new CConexion();
+        conexion.setRequest(request);
+        
+        bitacora = new Bitacora();
+        bitacora.setId_Usuario(ID_Usuario);
+        bitacora.setModulo("Configuración Inicial");
+        bitacora.setMovimiento("Inserción");
+        
+        try{
+            Query = "{call Guardar_Configuracion_Conexion_Click_Escolar (?,?,?,?,?)}";
+            con = conexion.GetconexionInSite();
+            cstmt = con.prepareCall(Query);
+            cstmt.setString(1, clave.trim());
+            cstmt.setString(2, usuario.trim());
+            cstmt.setString(3, contrasena.trim());
+            cstmt.setString(4, nombreBD.trim());
+            cstmt.registerOutParameter(5, java.sql.Types.VARCHAR);
+            cstmt.execute();
+            String respuestaProcedimiento = cstmt.getString(5);
+            
+            if (respuestaProcedimiento.contains("success")) {
+                //RESP += "||" + numTimbres + "||" + fechaVencimiento.substring(0, 2) + "-" + fechaVencimiento.substring(2, 4) + "-" + fechaVencimiento.substring(4);
+                bitacora.setInformacion("Registro de configuracion de conexión a click escolar, clave: " + clave + ", usuario: " + usuario + ", contraseña: " + contrasena + ", BD: " + nombreBD);
+                cBitacora = new CBitacora(bitacora);
+                cBitacora.setRequest(request);
+                cBitacora.addBitacoraGeneral();
+                RESP = "success";
+            } else {
+                throw new Exception(respuestaProcedimiento);
+            }
+            
+        }catch (Exception e) {
+            e.printStackTrace();
+            RESP = "error|Ocurrió un error al registrar la configuración: " + accion_catch(e);
+        }
+        
+        return RESP;
+    }
+    
+    public String modificarConexionClickEscolar() throws UnsupportedEncodingException{
+        String RESP = "", Query = "";
+        String idConfiguracion = request.getParameter("idConfiguracion");
+        String clave = request.getParameter("clave");
+        String usuario = request.getParameter("usuario");
+        String contrasena = request.getParameter("contrasena");
+        String nombreBD = request.getParameter("nombreBD");
+        
+        bitacora = new Bitacora();
+        bitacora.setId_Usuario(ID_Usuario);
+        bitacora.setModulo("Configuración Inicial");
+        bitacora.setMovimiento("Modificación");
+        
+        try{
+            Query = "{call Modificacion_Configuracion_Conexion_Click_Escolar (?,?,?,?,?,?)}";
+            con = conexion.GetconexionInSite();
+            cstmt = con.prepareCall(Query);
+            cstmt.setString(1, idConfiguracion.trim());
+            cstmt.setString(2, clave.trim());
+            cstmt.setString(3, usuario.trim());
+            cstmt.setString(4, contrasena.trim());
+            cstmt.setString(5, nombreBD.trim());
+            cstmt.registerOutParameter(6, java.sql.Types.VARCHAR);
+            cstmt.execute();
+            String respuestaProcedimiento = cstmt.getString(6);
+            
+            if (respuestaProcedimiento.contains("success")) {
+                //RESP += "||" + numTimbres + "||" + fechaVencimiento.substring(0, 2) + "-" + fechaVencimiento.substring(2, 4) + "-" + fechaVencimiento.substring(4);
+                bitacora.setInformacion("Modificación de configuracion de conexión a click escolar, idConfiguracion: " + idConfiguracion + ", clave: " + clave + ", usuario: " + usuario + ", contraseña: " + contrasena + ", BD: " + nombreBD);
+                cBitacora = new CBitacora(bitacora);
+                cBitacora.setRequest(request);
+                cBitacora.addBitacoraGeneral();
+                RESP = "success";
+            } else {
+                throw new Exception(respuestaProcedimiento);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            RESP = "error|Ocurrió un error al modificar la configuración: " + accion_catch(e);
+        }
+        
+        return RESP;
+    }
+    
     private String accion_catch(Exception ex) {
         String resp = "";
         try {
@@ -624,7 +761,7 @@ public class CConfiguracionInicial {
         } catch (Exception e) {
             resp += "</h4><small class='text-primary'>No se ha insertado en Bitacora de errores</small>";
         }
-        resp += "<br><br><small>Si continua con el problema, comuníquese con soporte técnico.</small> ";
+        resp += "<br><small>Si continua con el problema, comuníquese con soporte técnico.</small> ";
         return resp;
     }
 }

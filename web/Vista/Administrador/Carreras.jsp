@@ -284,6 +284,7 @@
                         </div>
                         <div class="col-xs-12 push-10-t">
                             <div class="pull-right">
+                                <button class="btn btn-danger btn-sm btn-rounded" id="btn-modal-descargar-carreras-click"><i class="fa fa-cloud-download"></i> Descargar Carreras</button>
                                 <button class="btn btn-primary push-5-r btn-sm btn-rounded" id="btnDescargarFormato"><i class="si si-cloud-download"></i> <a class='text-white' download href="../../Importaciones/ImportarCarrerasMaterias.xlsx"> Descargar formato</a></button>
                                 <button class="btn btn-primary btn-sm btn-rounded" id="btnImportarCarrerasExcel"><i class="fa fa-file-excel-o"></i> Importar registros</button>
                             </div>
@@ -345,7 +346,66 @@
             </footer>
             <!-- END Footer -->
         </div>
-        <!-- MODAL CAMBIO DE CONTRASEÑA -->
+        <!-- MODAL DE SERVICIO CLICK -->
+        <div class="modal fade" id="modal-servicio-click-escolar-carreras" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false">
+            <div class="modal-dialog modal-lg modal-dialog-popin mymodal nomini">
+                <div class="modal-content" id="modal-servicio-click-escolar-carreras-draggable" >
+                    <div class="block block-themed block-transparent remove-margin-b">
+                        <div class="block-header bg-primary-dark">
+                            <ul class="block-options">
+                                <li>
+                                    <button data-dismiss="modal" type="button" id="btn-cerrar-modal-servicio-click-escolar-carreras"><i class="si si-close"></i></button>
+                                </li>                                
+                            </ul>
+                            <h3 class="block-title" id="modaltitle">DESCARGAR CARRERAS CLICK ESCOLAR</h3>
+                        </div>
+                        <div class="block-content" style="overflow: inherit;">
+                            <h4 class="text-center">Confirmar Descarga </h4>
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="banda-confirmacion-error" style="display:none;"></div>
+                                <div class="col-xs-9 col-sm-9 col-md-9 col-xl-9" id="div-lst-carrera-servicio-click-escolar">
+                                    <div class="form-material form-material-primary" id="div-lst-carrera-servicio-click-escolar-in">
+                                        <select class="form-control" id="lst-carrera-servicio-click-escolar" name="lst-carrera-servicio-click-escolar">
+                                        </select>
+                                        <label for="lst-carrera-servicio-click-escolar"> Selecciona una Carrera</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-xl-3">
+                                    <input type="checkbox" id="check-todos-servicio-click-escolar" name="check-todos-servicio-click-escolar" value="todos">
+                                    <label for="check-todos-servicio-click-escolar"> Descargar Todo</label>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 push-20-t" id="div-previsualizar-carrerar-click-escolar">
+                                    <div class="alert alert-info alert-dismissable text-center" style="padding: 20px;">
+                                        <i class="fa fa-info-circle fa-4x"></i>
+                                        <h5 class="push-10-t">Por favor, completa los filtros requeridos para consultar las carreras disponibles.</h5>
+                                    </div>
+                                </div>
+                                
+                                <!--<div class="text-center push-30-t">
+                                    <button data-dismiss="modal" id="btn-cancelar-servicio" class="btn btn-sm btn-danger" type="button"><i class="fa fa-times push-5-r"></i> Cancelar</button>
+                                </div>
+                                <div class="text-center push-30-t">
+                                    <button id="btn-fire-service" class="btn btn-sm btn-success" type="button"><i class="fa fa-check push-5-r"></i> Confirmar</button>
+                                </div>-->
+                            </div>
+                            <div class="block-content block-content-mini block-content-full border-t">
+                                <div class="row">
+                                    <div style="display: flex; justify-content: space-between;">
+                                    <button data-dismiss="modal" id="btn-cancelar-carrera-servicio-click-escolar" class="btn btn-sm btn-danger" type="button"><i class="fa fa-times push-5-r"></i> Cancelar</button>
+                                    <div>
+                                        <button id="btn-consultar-carrera-servicio-click-escolar" class="btn btn-sm btn-primary" type="button"><i class="fa fa-download push-5-r"></i> Consultar</button>
+                                        <button id="btn-confirmar-carrera-servicio-click-escolar" class="btn btn-sm btn-success" type="button"><i class="fa fa-check push-5-r"></i> Confirmar</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- EDN MODAL DE SERVICIO CLICK -->
         <%
             if (!usuario.equals("null")) {
         %>
@@ -358,6 +418,7 @@
         <script src="../assets/js/pages/base_tables_datatables.js"></script>        
         <script src="../assets/js/plugins/sessionTimeOut/bootstrap-session-timeout.js"></script>
         <script src="../assets/js/plugins/Validations/ValidacionesTECarreras.js?v=1.2"></script>
+        <script src="../assets/js/plugins/serviceClickEscolar/ServiceClickEscolarCarreras.js"></script>
         <script src="../assets/js/plugins/Validations/ValidacionesCambiarContrasenia.js"></script>
         <div class="modal-backdropMenu fade in " style="display: none; z-index: 1043;" id="backdrop"></div>
         <div class="modal-backdropMenu fade in " style="display: none; z-index: 1043;" id="backdropside"></div>

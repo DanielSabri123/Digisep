@@ -180,14 +180,6 @@
                             <i class="fa fa-navicon"></i>
                         </button>
                     </li>
-                    <%--
-                    <li class="hidden-xs hidden-sm">
-                        <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
-                        <button class="btn btn-default" data-toggle="layout" data-action="sidebar_mini_toggle" type="button" style="width: 50px;">
-                            <i class="fa fa-ellipsis-v"></i>
-                        </button>
-                    </li>
-                    --%>
                 </ul>
                 <!-- END Header Navigation Left -->
             </header>
@@ -289,7 +281,7 @@
                                 <br>
                                 <br>
                                 <div>
-
+                                    <button class="btn btn-danger btn-sm btn-rounded" id="btn-modal-descargar-alumnos-click"><i class="fa fa-cloud-download"></i> Descargar Alumnos</button>
                                     <button class="btn btn-primary push-5-r btn-sm btn-rounded" id="btnDescargarFormato"><i class="si si-cloud-download"></i> <a class='text-white' download href="../../Importaciones/ImportarAlumnos.xlsx"> Descargar formato</a></button>
                                     <button class="btn btn-primary btn-sm btn-rounded" id="btnImportarCarrerasExcel"><i class="fa fa-file-excel-o"></i> Importar registros</button>
                                 </div>
@@ -497,6 +489,90 @@
             </div>
             <!-- Final Modal Alumnos -->
 
+            <!-- MODAL DE SERVICIO CLICK -->
+            <div class="modal fade" id="modal-servicio-click-escolar-alumnos" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false">
+                <div class="modal-dialog modal-lg modal-dialog-popin mymodal nomini">
+                    <div class="modal-content" id="modal-servicio-click-escolar-alumnos-draggable" >
+                        <div class="block block-themed block-transparent remove-margin-b">
+                            <div class="block-header bg-primary-dark">
+                                <ul class="block-options">
+                                    <li>
+                                        <button data-dismiss="modal" type="button" id="btn-cerrar-modal-servicio-click-escolar-alumnos"><i class="si si-close"></i></button>
+                                    </li>                                
+                                </ul>
+                                <h3 class="block-title" id="modaltitle">DESCARGAR ALUMNOS CLICK ESCOLAR</h3>
+                            </div>
+                            <div class="block-content" style="overflow: inherit;">
+                                <input value="individual" id="opcion-busqueda-servicio-click-escolar" type="hidden"/>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="banda-confirmacion-error" style="display:none;"></div>
+                                <div class="block">
+                                    <ul class="nav nav-tabs" data-toggle="tabs">
+                                        <li class="active">
+                                            <a href="#btabs-animated-slideleft-home" onclick="$('#opcion-busqueda-servicio-click-escolar').val('individual').trigger('change')">Búsqueda Individual</a>
+                                        </li>
+                                        <li class="">
+                                            <a href="#btabs-animated-slideleft-profile" onclick="$('#opcion-busqueda-servicio-click-escolar').val('porCarrera').trigger('change')">Búsqueda Por Carrera</a>
+                                        </li>
+                                    </ul>
+                                    <div class="block-content tab-content" style="padding-left: 0; padding-right: 0;">
+                                        <div class="tab-pane fade fade-left active in" id="btabs-animated-slideleft-home">
+                                            <div class="form-horizontal">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="form-material form-material-primary floating" style="margin: 0;">
+                                                        <input class="form-control js-maxlength" type="text" id="txt-matricula-servicio-click-escolar" name="txt-matricula-servicio-click-escolar" maxlength="50" autoComplete="off">
+                                                        <label for="txt-matricula-servicio-click-escolar"><span class="text-danger ">▪</span> Matrícula</label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 push-20-t" id="div-previsualizar-alumnos-click-escolar">
+                                                <div class="alert alert-info alert-dismissable text-center" style="padding: 20px;">
+                                                    <i class="fa fa-info-circle fa-4x"></i>
+                                                    <h5 class="push-10-t">Por favor, completa los filtros requeridos para consultar los alumnos disponibles.</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade fade-left" id="btabs-animated-slideleft-profile">
+                                            <div class="col-xs-9 col-sm-9 col-md-9 col-xl-9" id="div-lst-carrera-alumnos-servicio-click-escolar">
+                                                <div class="form-material form-material-primary" id="div-lst-carrera-alumnos-servicio-click-escolar-in">
+                                                    <select class="form-control" id="lst-carrera-alumnos-servicio-click-escolar" name="lst-carrera-alumnos-servicio-click-escolar">
+                                                    </select>
+                                                    <label for="lst-carrera-alumnos-servicio-click-escolar"> Selecciona una Carrera</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <a id="btn-descargar-archivo-incidencias-alumno-carrera" class="btn btn-warning" target="_blank" href="" download>
+                                                    Incidencias
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 push-20-t" id="div-previsualizar-carrera-alumnos-click-escolar">
+                                                <div class="alert alert-info alert-dismissable text-center" style="padding: 20px;">
+                                                    <i class="fa fa-info-circle fa-4x"></i>
+                                                    <h5 class="push-10-t">Por favor, completa los filtros requeridos para consultar los alumnos disponibles.</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block-content block-content-mini block-content-full border-t">
+                                    <div class="row">
+                                        <div style="display: flex; justify-content: space-between;">
+                                        <button data-dismiss="modal" id="btn-cancelar-alumnos-servicio-click-escolar" class="btn btn-sm btn-danger" type="button"><i class="fa fa-times push-5-r"></i> Cancelar</button>
+                                        <div>
+                                            <button id="btn-consultar-alumnos-servicio-click-escolar" class="btn btn-sm btn-primary" type="button"><i class="fa fa-download push-5-r"></i> Consultar</button>
+                                            <button id="btn-confirmar-alumnos-servicio-click-escolar" class="btn btn-sm btn-success" type="button"><i class="fa fa-check push-5-r"></i> Confirmar</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- EDN MODAL DE SERVICIO CLICK -->
+            
             <!-- Footer -->
             <footer id="page-footer" class="content-mini content-mini-full font-s12 bg-gray-lighter clearfix">
                 <div class="pull-right">
@@ -524,6 +600,7 @@
         <script src="../assets/js/plugins/masked-inputs/jquery.maskedinput.min.js"></script>
         <script src="../assets/js/plugins/sessionTimeOut/bootstrap-session-timeout.js"></script>
         <script src="../assets/js/plugins/Validations/ValidacionesTEAlumnos.js?v=1.2"></script>
+        <script src="../assets/js/plugins/serviceClickEscolar/ServiceClickEscolarAlumnos.js"></script>
         <script src="../assets/js/plugins/Validations/ValidacionesCambiarContrasenia.js"></script>
         <script src="../assets/js/plugins/jquery-ui/jquery-ui.min.js"></script>
         <script src="../assets/js/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>

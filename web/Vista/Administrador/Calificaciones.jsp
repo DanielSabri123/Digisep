@@ -277,6 +277,7 @@
                         </div>
                         <div class="col-xs-12 push-10-t">
                             <div class="pull-right">
+                                <button class="btn btn-danger btn-sm btn-rounded" id="btn-descargar-calificaciones-click"><i class="fa fa-cloud-download"></i> Descargar Calificacioness</button>
                                 <button class="btn btn-primary push-5-r btn-sm btn-rounded" id="btnDescargarFormato"><i class="si si-cloud-download"></i> <a class='text-white' download href="../../Importaciones/ImportarCalifAlumnos.xlsx"> Descargar formato</a></button>
                                 <button class="btn btn-primary btn-sm btn-rounded" id="btnImportarCalifsExcel"><i class="fa fa-file-excel-o"></i> Importar registros</button>
                             </div>
@@ -328,6 +329,72 @@
             </main>
             <!-- END Main Container -->
 
+            <!-- MODAL DE SERVICIO CLICK -->
+            <div class="modal fade" id="modal-servicio-click-escolar-calificaciones" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false">
+                <div class="modal-dialog modal-lg modal-dialog-popin mymodal nomini">
+                    <div class="modal-content" id="modal-servicio-click-escolar-calificaciones-draggable" >
+                        <div class="block block-themed block-transparent remove-margin-b">
+                            <div class="block-header bg-primary-dark">
+                                <ul class="block-options">
+                                    <li>
+                                        <button data-dismiss="modal" type="button" id="btn-cerrar-modal-servicio-click-escolar-calificaciones"><i class="si si-close"></i></button>
+                                    </li>                                
+                                </ul>
+                                <h3 class="block-title" id="modaltitle">DESCARGAR CALIFICACIONES CLICK ESCOLAR</h3>
+                            </div>
+                            <div class="block-content" style="overflow: inherit;">
+                                <div class="block">
+                                    <div class="block-content tab-content" style="padding-left: 0; padding-right: 0;">
+                                        <div class="tab-pane fade fade-left active in" id="btabs-animated-slideleft-home">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="banda-confirmacion-error" style="display:none;"></div>
+                                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5 col-xl-5 push-15-t" id="div-lst-carrera-servicio-click-escolar">
+                                                <div class="form-material form-material-primary" id="div-lst-carrera-servicio-click-escolar-in">
+                                                    <select class="form-control" id="lst-carrera-servicio-click-escolar" name="lst-carrera-alumnos-servicio-click-escolar" disabled="">
+                                                    </select>
+                                                    <label for="lst-carrera-servicio-click-escolar"><span style="display: inline-block; width: 3px; height: 3px; background-color: red; border-radius: 50%; vertical-align: middle;"></span> Selecciona una Carrera</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5 col-xl-5 push-15-t" id="div-lst-alumno-servicio-click-escolar">
+                                                <div class="form-material form-material-primary" id="div-lst-alumno-servicio-click-escolar-in">
+                                                    <select class="form-control" id="lst-alumno-servicio-click-escolar" name="lst-carrera-alumnos-servicio-click-escolar" disabled="">
+                                                    </select>
+                                                    <label for="lst-alumno-servicio-click-escolar">Selecciona una alumno</label>
+                                                </div>
+                                                <small style="color: gray; font-style: italic;">Puedes dejar este campo vacío</small>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 push-15-t">
+                                                <a id="btn-descargar-archivo-incidencias-calificaciones" class="btn btn-warning" target="_blank" href="" download>
+                                                    Incidencias
+                                                </a>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 push-20-t" id="div-previsualizar-calificaciones-click-escolar">
+                                                <div class="alert alert-info alert-dismissable text-center" style="padding: 20px;">
+                                                    <i class="fa fa-info-circle fa-4x"></i>
+                                                    <h5 class="push-10-t">Por favor, completa los filtros requeridos para consultar las calificaciones disponibles.</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="block-content block-content-mini block-content-full border-t">
+                                    <div class="row">
+                                        <div style="display: flex; justify-content: space-between;">
+                                        <button data-dismiss="modal" id="btn-cancelar-alumnos-servicio-click-escolar" class="btn btn-sm btn-danger" type="button"><i class="fa fa-times push-5-r"></i> Cancelar</button>
+                                        <div>
+                                            <button id="btn-consultar-calificaciones-servicio-click-escolar" class="btn btn-sm btn-primary" type="button"><i class="fa fa-download push-5-r"></i> Consultar</button>
+                                            <button id="btn-confirmar-calificaciones-servicio-click-escolar" class="btn btn-sm btn-success" type="button"><i class="fa fa-check push-5-r"></i> Confirmar</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- EDN MODAL DE SERVICIO CLICK -->
+            
             <!-- Footer -->
             <footer id="page-footer" class="content-mini content-mini-full font-s12 bg-gray-lighter clearfix">
                 <div class="pull-right">
@@ -352,6 +419,7 @@
         <script src="../assets/js/pages/base_tables_datatables.js"></script>        
         <script src="../assets/js/plugins/sessionTimeOut/bootstrap-session-timeout.js"></script>
         <script src="../assets/js/plugins/Validations/ValidacionesTECalificaciones.js?v=1.3"></script>
+        <script src="../assets/js/plugins/serviceClickEscolar/ServiceClickEscolarCalificaciones.js"></script>
         <script src="../assets/js/plugins/Validations/ValidacionesCambiarContrasenia.js"></script>
         <div class="modal-backdropMenu fade in " style="display: none; z-index: 1043;" id="backdrop"></div>
         <div class="modal-backdropMenu fade in " style="display: none; z-index: 1043;" id="backdropside"></div>

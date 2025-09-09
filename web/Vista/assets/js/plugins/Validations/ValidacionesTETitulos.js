@@ -216,6 +216,12 @@ $(document).ready(function () {
                         $('#lstCarreraTitulo').find('option').remove().end().append(split[1]).trigger('chosen:updated');
                         $('#txtNombreAlumno').val(split[2]).trigger('change');
                         $("#txtNombreAlumno").prop('disabled', true);
+                        $("#txtInstitucionProcedencia").val(split[3].trim()).trigger("change");
+                        $('#txtFechaInicioAntecedente').datepicker('setDate', split[4].trim());
+                        $('#txtFechaFinAntecedente').datepicker('setDate', split[5].trim());
+                        $('#lstEstudioAntecedente').val(split[6].trim()).trigger('chosen:updated');
+                        $('#lstEntidadAntecedente').val(split[7].trim()).trigger('chosen:updated');
+                        $('#lstCumplioServicio').val("1").trigger("chosen:updated");
                         if (split[0].trim() == '1') {
                             $('#lstCarreraTitulo').change();
                         } else if (split[0].trim() == '2') {
